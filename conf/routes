@@ -14,6 +14,7 @@ GET     /json/all                   controllers.Application.jsonFindAll
 POST    /json/insert                controllers.Application.jsonInsert
 
 # Rutas de subproyectos
+-> /login       login.Routes
 -> /simpleView  simpleView.Routes
 
 # Map static resources from the /public folder to the /assets URL path

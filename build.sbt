@@ -17,6 +17,10 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
                     .dependsOn(simpleView)
                     .aggregate(simpleView)
 
+lazy val login = (project in file("modules/login")).enablePlugins(PlayScala)
+                      .dependsOn(core)
+                      .aggregate(core)
+
 lazy val simpleView = (project in file("modules/simpleView"))
                           .enablePlugins(PlayScala)
                           .dependsOn(core)
