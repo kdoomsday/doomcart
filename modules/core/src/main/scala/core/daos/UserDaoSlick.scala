@@ -32,4 +32,8 @@ class UserDaoSlick @Inject() (val dcp: DatabaseConfigProvider)
   override def byId(id: Long): Future[Option[User]] = db.run(
     usuarios.filter(_.id === id).result.headOption
   )
+
+  override def byLogin(login: String): Future[Option[User]] = db.run(
+    usuarios.filter(_.login === login).result.headOption
+  )
 }

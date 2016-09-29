@@ -13,4 +13,5 @@ trait UserDao {
 
   def insert(login: String, password: String): Future[User]
   def byId(id: Long): Future[Option[User]]
+  def byLogin(login: String): Future[Option[User]]
 }
