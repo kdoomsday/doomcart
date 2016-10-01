@@ -13,3 +13,5 @@ server.pid
 /dist/
 .cache
 .idea
+.ensime*
+target

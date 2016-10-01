@@ -1,3 +1,3 @@
 name := "core"
 
-libraryDependencies ++= Common.dbDependencies
+libraryDependencies ++= Common.dbDependencies ++ Common.webDependencies

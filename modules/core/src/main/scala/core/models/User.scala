@@ -3,6 +3,8 @@ package core.models
 import slick.backend.DatabaseConfig
 import slick.driver.JdbcProfile
 
+import be.objectify.deadbolt.scala.models.Subject
+
 /**
   * A user in the system
   * @param id    Database identifier
@@ -12,7 +14,11 @@ case class User (
   id:       Long,
   login:    String,
   password: String
-)
+) extends Subject {
+  override val identifier = login
+  override val roles = List()
+  override val permissions = List()
+}
 
 trait UserTable {
   val dc: DatabaseConfig[JdbcProfile]

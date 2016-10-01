@@ -1,6 +1,6 @@
 package webCore.handler
 
-import javax.inject.Inject
+import javax.inject.{ Inject, Singleton }
 
 import be.objectify.deadbolt.scala.{DeadboltHandler, HandlerKey}
 import be.objectify.deadbolt.scala.cache.HandlerCache
@@ -10,11 +10,11 @@ class MyHandlerCache @Inject() (
   val defaultHandler: MyDeadboltHandler
 ) extends HandlerCache {
 
-    // HandlerKeys is an user-defined object, containing instances 
-    // of a case class that extends HandlerKey  
+    // HandlerKeys is an user-defined object, containing instances
+    // of a case class that extends HandlerKey
     val handlers: Map[Any, DeadboltHandler] = Map(HandlerKeys.defaultHandler -> defaultHandler,
-                                                  HandlerKeys.altHandler -> new MyDeadboltHandler(Some(MyAlternativeDynamicResourceHandler)),
-                                                  HandlerKeys.userlessHandler -> new MyUserlessDeadboltHandler)
+                                                  HandlerKeys.altHandler -> defaultHandler,
+                                                  HandlerKeys.userlessHandler -> defaultHandler)
 
     // Get the default handler.
     override def apply(): DeadboltHandler = defaultHandler
