@@ -1,3 +1,5 @@
+package webCore.handler
+
 import be.objectify.deadbolt.scala.models.Subject
 import be.objectify.deadbolt.scala.{AuthenticatedRequest, DeadboltHandler, DynamicResourceHandler}
 import com.google.inject.Inject

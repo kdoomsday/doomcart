@@ -1,3 +1,5 @@
+package webCore.handler
+
 import javax.inject.Inject
 
 import be.objectify.deadbolt.scala.{DeadboltHandler, HandlerKey}
