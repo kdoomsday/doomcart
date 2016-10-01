@@ -9,13 +9,10 @@
     <input type="submit"/>
   </form>
 
-  <h2>simpleViewThings</h2>
-  <a href="@controllers.simpleView.routes.Index.index()">Go to simple view</a>
-
   <h2>Previously inserted cats:</h2>
   <table>
     <tr><th>Name</th><th>Color</th></tr>
-    @for(c <- cats){ 
+    @for(c <- cats){
       <tr><td>@c.name</td><td>@c.color</td></tr>
     }
   </table>

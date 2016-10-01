@@ -16,14 +16,8 @@ lazy val webCore = (project in file("modules/webCore"))
                       .dependsOn(core).aggregate(core)
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
-                      .dependsOn(webCore, simpleView, login)
+                      .dependsOn(webCore, login)
 
 lazy val login = (project in file("modules/login"))
                       .enablePlugins(PlayScala)
                       .dependsOn(webCore)
-
-lazy val simpleView = (project in file("modules/simpleView"))
-                          .enablePlugins(PlayScala)
-                          .dependsOn(webCore)
-
-//routesGenerator := InjectedRoutesGenerator

@@ -1,6 +1,9 @@
 package controllers.login
 
-import play.api.mvc.Controller
+import play.api.mvc.{ Action, Controller }
+
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
   * User: Eduardo Barrientos
@@ -9,5 +12,5 @@ import play.api.mvc.Controller
   */
 class LoginController extends Controller {
 
-  def loginPage = TODO
+  def loginPage = Action.async { Future { Ok(views.html.login.login()) } }
 }
