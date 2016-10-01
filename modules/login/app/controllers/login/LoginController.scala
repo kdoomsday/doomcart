@@ -12,5 +12,5 @@ import scala.concurrent.ExecutionContext.Implicits.global
   */
 class LoginController extends Controller {
 
-  def loginPage = Action.async { Future { Ok(views.html.login.login()) } }
+  def loginPage = Action.async { Future { Ok(webCore.views.html.security.login()) } }
 }

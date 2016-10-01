@@ -1,3 +1,14 @@
-@(redirectUri: String)
+@(redirectUri: String = "")
 
-<p>TODO</p>
+<h1>Login page</h1>
+
+@if(redirectUri == "") {
+  <p>No redirect</p>
+} else {
+  <p>Redirect to @redirectUri after login
+}
+
+<form action="#">
+    <input type="text" name="login" placeholder="login">
+    <input type="password" name="password" placeholder="password">
+</form>
