@@ -9,6 +9,7 @@ object Common {
 
   val webDependencies = Seq(
     "org.webjars" %% "webjars-play" % "2.3.0-2",
-    "be.objectify" %% "deadbolt-scala" % "2.5.0"
+    "be.objectify" %% "deadbolt-scala" % "2.5.0",
+    "org.webjars.bower" % "Materialize" % "0.96.0"
   )
 }
