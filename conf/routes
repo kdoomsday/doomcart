@@ -14,7 +14,7 @@ GET     /json/all                   controllers.Application.jsonFindAll
 POST    /json/insert                controllers.Application.jsonInsert
 
 # Rutas de subproyectos
-->      /login          login.Routes
+->      /web            webCore.Routes
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

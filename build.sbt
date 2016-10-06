@@ -13,11 +13,8 @@ lazy val core = project in file("modules/core")
 // Basis for all web modules
 lazy val webCore = (project in file("modules/webCore"))
                       .enablePlugins(PlayScala)
-                      .dependsOn(core).aggregate(core)
+                      .dependsOn(core)
+                      .aggregate(core)
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
-                      .dependsOn(webCore, login)
-
-lazy val login = (project in file("modules/login"))
-                      .enablePlugins(PlayScala)
                       .dependsOn(webCore)

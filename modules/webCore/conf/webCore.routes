@@ -1,1 +1,3 @@
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /login                controllers.LoginController.loginPage
+
+GET     /assets/*file         controllers.Assets.at(path="/public/lb/webCore", file)
