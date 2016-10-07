@@ -8,6 +8,8 @@ import webCore.views.html.security.{denied, login}
 import play.api.mvc.{Request, Result, Results}
 import play.twirl.api.HtmlFormat
 
+import webCore.controllers.LoginController
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -22,7 +24,7 @@ class MyDeadboltHandler @Inject() (
   override def getSubject[A](request: AuthenticatedRequest[A]): Future[Option[Subject]] =
     request.subject match {
       case s @ Some(_) => Future(s)
-      case None => request.session.get("userId") match {
+      case None => request.session.get("login") match {
         case Some(userId) => userDao.byLogin(userId)
         case None         => Future(None)
       }
@@ -31,7 +33,7 @@ class MyDeadboltHandler @Inject() (
   override def onAuthFailure[A](request: AuthenticatedRequest[A]): Future[Result] = {
     def toContent(maybeSubject: Option[Subject]): (Boolean, HtmlFormat.Appendable) =
       maybeSubject.map(subject => (true, denied(Some(subject))))
-                  .getOrElse {(false, login(getRedirectUri(request)))}
+                  .getOrElse {(false, login(LoginController.loginForm, getRedirectUri(request)))}
 
     getSubject(request).map(maybeSubject => toContent(maybeSubject))
     .map(subjectPresentAndContent =>
@@ -39,5 +41,6 @@ class MyDeadboltHandler @Inject() (
       else Results.Unauthorized(subjectPresentAndContent._2))
   }
 
-  private[this] def getRedirectUri[A](request: AuthenticatedRequest[A]): String = ???
+  private[this] def getRedirectUri[A](request: AuthenticatedRequest[A]): String =
+    request.session.get("redirectUri").getOrElse("")
 }

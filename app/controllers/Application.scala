@@ -1,29 +1,27 @@
 package controllers
 
+import scala.concurrent.Future
+
+import be.objectify.deadbolt.scala.ActionBuilders
+import javax.inject.Inject
 import models._
-import play.api._
-import play.api.db.slick._
-//import play.api.db.slick.Config.driver.simple._
 import play.api.data._
 import play.api.data.Forms._
 import play.api.mvc._
 
-import scala.concurrent.Future
-import play.api.mvc.BodyParsers._
-import play.api.libs.json.Json
-import play.api.libs.json.Json._
+import scala.language.reflectiveCalls
 
-class Application extends Controller {
+class Application @Inject() (val actionBuilder: ActionBuilders) extends Controller {
 
   /*
   //create an instance of the table
-  val cats = TableQuery[CatsTable] //see a way to architect your app in the computers-database-slick sample  
+  val cats = TableQuery[CatsTable] //see a way to architect your app in the computers-database-slick sample
 
   //JSON read/write macro
   implicit val catFormat = Json.format[Cat]
   */
 
-  def index = Action.async {
+  def index = actionBuilder.SubjectPresentAction().defaultHandler() { authRequest =>
     Future.successful( Ok(views.html.index(List())) )
   }
 
@@ -39,5 +37,5 @@ class Application extends Controller {
   def jsonFindAll = TODO
 
   def jsonInsert = TODO
-  
+
 }

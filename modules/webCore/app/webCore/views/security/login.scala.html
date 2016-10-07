@@ -1,4 +1,4 @@
-@(redirectUri: String = "")
+@(form: Form[(String, String)], redirectUri: String = "")
 
 <head>
   <title>Login</title>
@@ -9,7 +9,7 @@
     <div class="row">
       <h1 class="col s12">Login page</h1>
 
-      <form action="#">
+      <form action="@routes.LoginController.login" method="post" role="form">
           <input type="text" name="login" placeholder="login" class="col m5 s12" autofocus>
           <input type="password" name="password" placeholder="password" class="col m5 offset-m2 s12">
           <input type="submit" class="col s2 offset-s5" value="Log in">
