@@ -1,6 +1,6 @@
 package webCore.controllers
 
-import play.api.mvc.{ Action, Controller }
+import play.api.mvc.{ Action, Controller, Request, AnyContent }
 import play.api.data._
 import play.api.data.Forms._
 
@@ -27,8 +27,24 @@ class LoginController @Inject() (
 
   import LoginController.loginForm
 
-  def loginPage = Action.async { implicit req => Future { Ok(webCore.views.html.security.login(loginForm)) } }
+  // Go to login if there's no session, go to home if there is
+  def loginPage = Action.async { implicit req =>
+    Future {
+      if (loggedIn(req)) Redirect(homeChooser.home)
+      else Ok(webCore.views.html.security.login(loginForm))
+    }
+  }
 
+  /** Check whether there's a user logged in */
+  private[this] def loggedIn(req: Request[AnyContent]): Boolean =
+    req.session.get("login").fold(false)
+      { login =>
+        // TODO Check session timeout
+        true
+      }
+
+
+  /** Handle the user logging in */
   def login = actionBuilder.SubjectNotPresentAction().defaultHandler() { implicit authRequest =>
     loginForm.bindFromRequest.fold(
       formWithErrors => Future( BadRequest(webCore.views.html.security.login(formWithErrors)) ),

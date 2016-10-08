@@ -8,6 +8,8 @@ CREATE TABLE users (
     CONSTRAINT uq_login UNIQUE(login)
 );
 
+insert into users(login, password) values ('admin', 'admin');
+
 # --- !Downs
 
-drop table user;
+drop table users;
