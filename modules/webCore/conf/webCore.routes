@@ -1,4 +1,4 @@
-GET     /login                controllers.LoginController.loginPage
-POST    /login                controllers.LoginController.login
+GET     /login                webCore.controllers.LoginController.loginPage
+POST    /login                webCore.controllers.LoginController.login
 
 GET     /assets/*file         controllers.Assets.at(path="/public/lb/webCore", file)

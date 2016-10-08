@@ -33,7 +33,7 @@ class MyDeadboltHandler @Inject() (
   override def onAuthFailure[A](request: AuthenticatedRequest[A]): Future[Result] = {
     def toContent(maybeSubject: Option[Subject]): (Boolean, HtmlFormat.Appendable) =
       maybeSubject.map(subject => (true, denied(Some(subject))))
-                  .getOrElse {(false, login(LoginController.loginForm, getRedirectUri(request)))}
+                  .getOrElse { (false, login(LoginController.loginForm, getRedirectUri(request))) }
 
     getSubject(request).map(maybeSubject => toContent(maybeSubject))
     .map(subjectPresentAndContent =>

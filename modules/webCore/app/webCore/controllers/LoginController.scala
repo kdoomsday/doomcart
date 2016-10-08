@@ -27,14 +27,17 @@ class LoginController @Inject() (
 
   import LoginController.loginForm
 
-  def loginPage = Action.async { Future { Ok(webCore.views.html.security.login(loginForm)) } }
+  def loginPage = Action.async { implicit req => Future { Ok(webCore.views.html.security.login(loginForm)) } }
 
   def login = actionBuilder.SubjectNotPresentAction().defaultHandler() { implicit authRequest =>
     loginForm.bindFromRequest.fold(
       formWithErrors => Future( BadRequest(webCore.views.html.security.login(formWithErrors)) ),
       userData       => authenticate(userData._1, userData._2) map (valid =>
                           if (valid) Redirect(homeChooser.home).withSession("login" -> userData._1)
-                          else BadRequest(webCore.views.html.security.login(loginForm))
+                          else {
+                            implicit val errors = Seq("Invalid user!")
+                            BadRequest(webCore.views.html.security.login(loginForm))
+                          }
                         )
     )
   }
