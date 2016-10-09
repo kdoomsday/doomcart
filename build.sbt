@@ -4,7 +4,7 @@ version := "0.1-SNAPSHOT"
 
 scalaVersion in ThisBuild := "2.11.8"
 
-libraryDependencies ++= Common.dbDependencies ++ Common.webDependencies
+libraryDependencies ++= Common.coreDependencies ++ Common.dbDependencies ++ Common.webDependencies
 
 fork in Test := false
 

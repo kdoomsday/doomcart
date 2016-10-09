@@ -1,3 +1,3 @@
 name := "webCore"
 
-libraryDependencies ++= Common.dbDependencies ++ Common.webDependencies
+libraryDependencies ++= Common.coreDependencies ++ Common.dbDependencies ++ Common.webDependencies

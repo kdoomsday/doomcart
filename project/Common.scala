@@ -1,6 +1,10 @@
 import sbt._
 
 object Common {
+  val coreDependencies = Seq(
+    "com.github.nscala-time" %% "nscala-time" % "2.14.0"
+  )
+
   val dbDependencies = Seq(
     "com.typesafe.play" %% "play-slick" % "2.0.0",
     "com.typesafe.play" %% "play-slick-evolutions" % "2.0.0",

@@ -46,11 +46,15 @@ class LoginController @Inject() (
   def login = actionBuilder.SubjectNotPresentAction().defaultHandler() { implicit authRequest =>
     loginForm.bindFromRequest.fold(
       formWithErrors => Future( BadRequest(webCore.views.html.security.login(formWithErrors)) ),
-      userData       => authenticate(userData._1, userData._2) map (valid =>
-                          if (valid) Redirect(routes.Application.index).withSession("login" -> userData._1)
+      userData       => authenticate(userData._1, userData._2) flatMap (valid =>
+                          if (valid) {
+                            userDao.updateConnected(userData._1).map(_ =>
+                              Redirect(routes.Application.index).withSession("login" -> userData._1)
+                            )
+                          }
                           else {
                             implicit val errors = Seq("Invalid user!")
-                            BadRequest(webCore.views.html.security.login(loginForm))
+                            Future.successful( BadRequest(webCore.views.html.security.login(loginForm)) )
                           }
                         )
     )
