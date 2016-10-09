@@ -5,7 +5,6 @@ import play.api.data._
 import play.api.data.Forms._
 
 import core.daos.UserDao
-import webCore.controllers.homeChooser.HomeChooser
 
 import be.objectify.deadbolt.scala.ActionBuilders
 import javax.inject.Inject
@@ -21,8 +20,7 @@ import scala.language.reflectiveCalls
   */
 class LoginController @Inject() (
     val actionBuilder: ActionBuilders,
-    val userDao:       UserDao,
-    val homeChooser:   HomeChooser
+    val userDao:       UserDao
 ) extends Controller {
 
   import LoginController.loginForm
@@ -30,7 +28,7 @@ class LoginController @Inject() (
   // Go to login if there's no session, go to home if there is
   def loginPage = Action.async { implicit req =>
     Future {
-      if (loggedIn(req)) Redirect(homeChooser.home)
+      if (loggedIn(req)) Redirect(routes.Application.index)
       else Ok(webCore.views.html.security.login(loginForm))
     }
   }
@@ -49,7 +47,7 @@ class LoginController @Inject() (
     loginForm.bindFromRequest.fold(
       formWithErrors => Future( BadRequest(webCore.views.html.security.login(formWithErrors)) ),
       userData       => authenticate(userData._1, userData._2) map (valid =>
-                          if (valid) Redirect(homeChooser.home).withSession("login" -> userData._1)
+                          if (valid) Redirect(routes.Application.index).withSession("login" -> userData._1)
                           else {
                             implicit val errors = Seq("Invalid user!")
                             BadRequest(webCore.views.html.security.login(loginForm))
