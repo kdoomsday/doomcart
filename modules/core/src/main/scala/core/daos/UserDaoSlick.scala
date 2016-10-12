@@ -10,6 +10,9 @@ import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
 
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+
+import play.api.Logger
 
 /**
   * User: Eduardo Barrientos
@@ -37,15 +40,16 @@ class UserDaoSlick @Inject() (val dcp: DatabaseConfigProvider)
   )
 
 
-  override def byLogin(login: String): Future[Option[User]] = db.run(
-    users.filter(_.login === login).result.headOption
-  )
-
-
-  override def updateConnected(login: String): Future[Unit] = db.run {
-    val user = for (u <- users if (u.login === login)) yield (u.connected, u.lastActivity)
-    user.update( (true, Option( now() )) ).asInstanceOf[DBIOAction[Unit, slick.dbio.NoStream, slick.dbio.Effect.Write]]
+  override def byLogin(login: String): Future[Option[User]] = {
+    Logger.debug(s"Requested user by login: $login")
+    db.run( users.filter(_.login === login).result.headOption )
   }
+
+
+  override def updateConnected(login: String): Future[Boolean] = db.run {
+    val user = for (u <- users if (u.login === login)) yield (u.connected, u.lastActivity)
+    user.update( (true, Option( now() )) )
+  } map (_ => true)
 
 
   /** Convenience method for building a java.sql.Timestamp for right now */

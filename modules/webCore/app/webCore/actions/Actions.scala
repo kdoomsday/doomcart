@@ -1,6 +1,6 @@
 package webCore.actions
 
-import play.api.mvc.{ Controller, Result, Request }
+import play.api.mvc.{ Controller, Result }
 
 import core.daos.UserDao
 import core.models.User

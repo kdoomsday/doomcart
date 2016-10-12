@@ -1,6 +1,8 @@
 GET     /login                webCore.controllers.LoginController.loginPage
 POST    /login                webCore.controllers.LoginController.login
 
+GET     /logout               webCore.controllers.LoginController.logout
+
 GET     /home                 webCore.controllers.Application.index
 
 GET     /assets/*file         controllers.Assets.at(path="/public/lb/webCore", file)

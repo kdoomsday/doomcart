@@ -3,6 +3,7 @@ package webCore.controllers
 import play.api.mvc.{ Action, Controller, Request }
 import play.api.data._
 import play.api.data.Forms._
+import play.api.Logger
 
 import core.daos.UserDao
 import webCore.actions.Actions
@@ -12,7 +13,6 @@ import javax.inject.Inject
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.language.reflectiveCalls
 
 /**
   * User: Eduardo Barrientos
@@ -48,21 +48,32 @@ class LoginController @Inject() (
 
 
   /** Handle the user logging in */
-  def login = actionBuilder.SubjectNotPresentAction().defaultHandler() { implicit authRequest =>
+  def login = Action.async { implicit request =>
+    Logger.info("Attempting login")
     loginForm.bindFromRequest.fold(
       formWithErrors => Future( BadRequest(webCore.views.html.security.login(formWithErrors)) ),
-      userData       => authenticate(userData._1, userData._2) flatMap (valid =>
+
+      userData => {
+        val (login, pwd) = userData
+        authenticate(login, pwd) flatMap (valid =>
                           if (valid) {
-                            userDao.updateConnected(userData._1).map(_ =>
-                              Redirect(routes.Application.index).withSession("login" -> userData._1)
+                            Logger.debug(s"User $login is valid")
+                            userDao.updateConnected(login) map (_ =>
+                              Redirect(routes.Application.index).withSession("login" -> login)
                             )
                           }
                           else {
-                            implicit val errors = Seq("Invalid user!")
+                            implicit val errors = Seq("Invalid user: $login")
                             Future.successful( BadRequest(webCore.views.html.security.login(loginForm)) )
                           }
                         )
+      }
     )
+  }
+
+
+  def logout = Action {
+    Redirect(routes.LoginController.loginPage()).withNewSession
   }
 
 

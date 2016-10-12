@@ -15,6 +15,8 @@ trait UserDao {
   def byId(id: Long): Future[Option[User]]
   def byLogin(login: String): Future[Option[User]]
 
-  /** Update the user's last connected time (also marks it connected) */
-  def updateConnected(login: String): Future[Unit]
+  /** Update the user's last connected time (also marks it connected)
+    * @return If the operation was successful
+    */
+  def updateConnected(login: String): Future[Boolean]
 }
