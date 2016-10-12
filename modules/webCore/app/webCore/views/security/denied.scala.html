@@ -2,4 +2,10 @@
 
 @(maybeSubject: Option[Subject])
 
-<p>todo</p>
+@webCore.views.html.main("Permission denied!") {
+  @maybeSubject.fold(
+    webCore.views.html.show.errorCard(Seq("No user!"))
+  )(
+    subject => webCore.views.html.show.errorCard(Seq("Denied for " + subject.identifier))
+  )
+}

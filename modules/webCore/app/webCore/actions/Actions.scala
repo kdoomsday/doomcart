@@ -1,6 +1,6 @@
 package webCore.actions
 
-import play.api.mvc.Result
+import play.api.mvc.{ Controller, Result, Request }
 
 import core.daos.UserDao
 import core.models.User
@@ -10,25 +10,24 @@ import com.github.nscala_time.time.Imports._
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.language.reflectiveCalls
 
-import be.objectify.deadbolt.scala.{ ActionBuilders, AuthenticatedRequest }
+import be.objectify.deadbolt.scala.{ DeadboltActions, AuthenticatedRequest }
 
 import javax.inject.Inject
 
 class Actions @Inject() (
-  actionBuilder: ActionBuilders,
+  deadbolt:      DeadboltActions,
   userDao:       UserDao
-) {
+) extends Controller {
   val timeout = 5.minutes
 
   /** Add session timeout checking to an action */
   def timedAction(block: AuthenticatedRequest[_] => Future[Result]) =
-    actionBuilder.SubjectPresentAction().defaultHandler() { implicit authRequest =>
+    deadbolt.SubjectPresent()() { authRequest =>
       userDao.byLogin(authRequest.session.get("login").get) flatMap { ou =>
         ou.fold(notLoggedIn)(u =>
-          if (isStillIn(u, authRequest)) {
-            userDao.updateConnected(u.login). flatMap (_ => block(authRequest) )
+          if ( isStillIn(u) ) {
+            userDao.updateConnected(u.login) flatMap (_ => block(authRequest) )
           }
           else notLoggedIn
         )
@@ -36,8 +35,11 @@ class Actions @Inject() (
     }
 
   /** Whether a user is connected and not timed out */
-  private[this] def isStillIn(u: User, r: AuthenticatedRequest[_]): Boolean =
-    u.connected && ((u.lastActivity + timeout) >= Instant.now())
+  def isStillIn(u: User): Boolean =
+    u.connected &&
+    u.lastActivity.fold(false)(_ + timeout >= Instant.now())
 
-  private[this] def notLoggedIn: Future[Result] = Redirect(webCore.routes.controllers.LoginController.loginPage)
+  /** What to do if not logged in */
+  private[this] def notLoggedIn: Future[Result] =
+    Future.successful( Redirect(webCore.controllers.routes.LoginController.loginPage) )
 }

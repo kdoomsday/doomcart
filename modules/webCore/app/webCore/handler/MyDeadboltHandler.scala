@@ -21,7 +21,7 @@ class MyDeadboltHandler @Inject() (
 
   override def getDynamicResourceHandler[A](request: Request[A]): Future[Option[DynamicResourceHandler]] = Future {None}
 
-  override def getSubject[A](request: AuthenticatedRequest[A]): Future[Option[Subject]] =
+  override def getSubject[A](request: AuthenticatedRequest[A]): Future[Option[Subject]] = {
     request.subject match {
       case s @ Some(_) => Future(s)
       case None => request.session.get("login") match {
@@ -29,6 +29,7 @@ class MyDeadboltHandler @Inject() (
         case None         => Future(None)
       }
     }
+  }
 
   override def onAuthFailure[A](request: AuthenticatedRequest[A]): Future[Result] = {
     def toContent(maybeSubject: Option[Subject]): (Boolean, HtmlFormat.Appendable) =

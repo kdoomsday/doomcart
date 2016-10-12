@@ -18,7 +18,7 @@ case class User (
   login:        String,
   password:     String,
   connected:    Boolean,
-  lastActivity: Instant
+  lastActivity: Option[Instant]
 ) extends Subject {
   override val identifier = login
   override val roles = List()
@@ -36,7 +36,7 @@ trait UserTable {
     def login        = column[String]("login")
     def password     = column[String]("password")
     def connected    = column[Boolean]("connected")
-    def lastActivity = column[Timestamp]("last_activity")
+    def lastActivity = column[Option[Timestamp]]("last_activity")
 
     def idxLogin = index("uk_login", login, unique = true)
 
@@ -44,11 +44,11 @@ trait UserTable {
   }
 
   def userUnapply(u: User) =
-    Some((u.id, u.login, u.password, u.connected, instant2Timestamp(u.lastActivity)))
+    Some((u.id, u.login, u.password, u.connected, u.lastActivity.map(instant2Timestamp)))
 
-  def userTupled(row: (Long, String, String, Boolean, Timestamp)): User = {
-    val (id, login, pwd, connected, lastAct) = row
-    User(id, login, pwd, connected, timestamp2Instant(lastAct))
+  def userTupled(row: (Long, String, String, Boolean, Option[Timestamp])): User = {
+    val (id, login, pwd, connected, oLastAct) = row
+    User(id, login, pwd, connected, oLastAct.map(timestamp2Instant))
   }
 
   // Conversions

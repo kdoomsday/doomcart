@@ -1,10 +1,11 @@
 package webCore.controllers
 
-import play.api.mvc.{ Action, Controller, Request, AnyContent }
+import play.api.mvc.{ Action, Controller, Request }
 import play.api.data._
 import play.api.data.Forms._
 
 import core.daos.UserDao
+import webCore.actions.Actions
 
 import be.objectify.deadbolt.scala.ActionBuilders
 import javax.inject.Inject
@@ -20,26 +21,30 @@ import scala.language.reflectiveCalls
   */
 class LoginController @Inject() (
     val actionBuilder: ActionBuilders,
-    val userDao:       UserDao
+    val userDao:       UserDao,
+    val actions:       Actions
 ) extends Controller {
 
   import LoginController.loginForm
 
   // Go to login if there's no session, go to home if there is
   def loginPage = Action.async { implicit req =>
-    Future {
-      if (loggedIn(req)) Redirect(routes.Application.index)
-      else Ok(webCore.views.html.security.login(loginForm))
-    }
+    isLoggedIn(req).map(_ match {
+      case true  => Redirect(routes.Application.index)
+      case false => Ok(webCore.views.html.security.login(loginForm))
+    })
   }
 
   /** Check whether there's a user logged in */
-  private[this] def loggedIn(req: Request[AnyContent]): Boolean =
-    req.session.get("login").fold(false)
-      { login =>
-        // TODO Check session timeout
-        true
+  private[this] def isLoggedIn(req: Request[_]): Future[Boolean] = {
+    req.session.get("login").fold(Future.successful(false)) { login =>
+      userDao.byLogin(login).map { oUser =>
+        oUser.fold(false) { user =>
+          actions.isStillIn(user)
+        }
       }
+    }
+  }
 
 
   /** Handle the user logging in */

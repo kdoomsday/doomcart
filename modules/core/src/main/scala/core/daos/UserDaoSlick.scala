@@ -44,7 +44,7 @@ class UserDaoSlick @Inject() (val dcp: DatabaseConfigProvider)
 
   override def updateConnected(login: String): Future[Unit] = db.run {
     val user = for (u <- users if (u.login === login)) yield (u.connected, u.lastActivity)
-    user.update( (true, now()) ).asInstanceOf[DBIOAction[Unit, slick.dbio.NoStream, slick.dbio.Effect.Write]]
+    user.update( (true, Option( now() )) ).asInstanceOf[DBIOAction[Unit, slick.dbio.NoStream, slick.dbio.Effect.Write]]
   }
 
 
