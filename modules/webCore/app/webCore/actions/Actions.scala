@@ -21,17 +21,21 @@ class Actions @Inject() (
 ) extends Controller {
   val timeout = 5.minutes
 
+  /** Applies a session timeout check. Is used for combining into other actions */
+  private[this] def timeCheck(req: AuthenticatedRequest[_], block: AuthenticatedRequest[_] => Future[Result]) =
+    userDao.byLogin(req.session.get("login").get) flatMap { ou =>
+      ou.fold(notLoggedIn)(u =>
+        if ( isStillIn(u) ) {
+          userDao.updateConnected(u.login) flatMap (_ => block(req) )
+        }
+        else notLoggedIn
+      )
+  }
+
   /** Add session timeout checking to an action */
   def timedAction(block: AuthenticatedRequest[_] => Future[Result]) =
     deadbolt.SubjectPresent()() { authRequest =>
-      userDao.byLogin(authRequest.session.get("login").get) flatMap { ou =>
-        ou.fold(notLoggedIn)(u =>
-          if ( isStillIn(u) ) {
-            userDao.updateConnected(u.login) flatMap (_ => block(authRequest) )
-          }
-          else notLoggedIn
-        )
-      }
+      timeCheck(authRequest, block)
     }
 
   /** Whether a user is connected and not timed out */
@@ -42,4 +46,11 @@ class Actions @Inject() (
   /** What to do if not logged in */
   private[this] def notLoggedIn: Future[Result] =
     Future.successful( Redirect(webCore.controllers.routes.LoginController.loginPage) )
+
+
+  /** Action that checks for a role and session timeout */
+  def roleAction(rolename: String)(block: AuthenticatedRequest[_] => Future[Result]) =
+    deadbolt.Restrict(List(Array(rolename)))() { authRequest =>
+      timeCheck(authRequest, block)
+    }
 }

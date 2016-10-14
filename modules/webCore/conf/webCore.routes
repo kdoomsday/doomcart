@@ -4,5 +4,6 @@ POST    /login                webCore.controllers.LoginController.login
 GET     /logout               webCore.controllers.LoginController.logout
 
 GET     /home                 webCore.controllers.Application.index
+GET     /employee/lounge      webCore.controllers.Application.employeeIndex
 
 GET     /assets/*file         controllers.Assets.at(path="/public/lb/webCore", file)

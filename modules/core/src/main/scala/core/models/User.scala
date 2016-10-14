@@ -6,8 +6,6 @@ import slick.driver.JdbcProfile
 import java.sql.Timestamp
 import org.joda.time.Instant
 
-import be.objectify.deadbolt.scala.models.Subject
-
 /**
   * A user in the system
   * @param id    Database identifier
@@ -17,14 +15,10 @@ case class User (
   id:           Long,
   login:        String,
   password:     String,
+  roleId:       Int,
   connected:    Boolean,
   lastActivity: Option[Instant]
-) extends Subject {
-  override val identifier = login
-  override val roles = List()
-  override val permissions = List()
-}
-
+)
 
 trait UserTable {
   val dc: DatabaseConfig[JdbcProfile]
@@ -35,20 +29,23 @@ trait UserTable {
     def id           = column[Long]  ("id", O.PrimaryKey, O.AutoInc)
     def login        = column[String]("login")
     def password     = column[String]("password")
+    def roleId       = column[Int]("role_id")
     def connected    = column[Boolean]("connected")
     def lastActivity = column[Option[Timestamp]]("last_activity")
 
     def idxLogin = index("uk_login", login, unique = true)
 
-    def * = (id, login, password, connected, lastActivity).shaped <> (userTupled, userUnapply)
+    def * = (id, login, password, roleId, connected, lastActivity).shaped <> (userTupled, userUnapply)
   }
 
+  // User -> Option[Tuple]
   def userUnapply(u: User) =
-    Some((u.id, u.login, u.password, u.connected, u.lastActivity.map(instant2Timestamp)))
+    Some((u.id, u.login, u.password, u.roleId, u.connected, u.lastActivity.map(instant2Timestamp)))
 
-  def userTupled(row: (Long, String, String, Boolean, Option[Timestamp])): User = {
-    val (id, login, pwd, connected, oLastAct) = row
-    User(id, login, pwd, connected, oLastAct.map(timestamp2Instant))
+  // Tuple -> User
+  def userTupled(row: (Long, String, String, Int, Boolean, Option[Timestamp])): User = {
+    val (id, login, pwd, roleId, connected, oLastAct) = row
+    User(id, login, pwd, roleId, connected, oLastAct.map(timestamp2Instant))
   }
 
   // Conversions
@@ -56,5 +53,5 @@ trait UserTable {
   def timestamp2Instant(ts: Timestamp): Instant = new Instant(ts.getTime())
 
 
-  val users = TableQuery[Usuarios]
+  lazy val users = TableQuery[Usuarios]
 }

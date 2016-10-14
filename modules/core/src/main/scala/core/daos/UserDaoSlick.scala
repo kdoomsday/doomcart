@@ -29,12 +29,6 @@ class UserDaoSlick @Inject() (val dcp: DatabaseConfigProvider)
   private[this] val db = dc.db
 
 
-  override def insert(login: String, password: String): Future[User] = db.run {
-    val user = User(0L, login, password, false, null)
-    (users returning users.map(_.id) into ((u, id) => u.copy(id = id))) += user
-  }
-
-
   override def byId(id: Long): Future[Option[User]] = db.run(
     users.filter(_.id === id).result.headOption
   )

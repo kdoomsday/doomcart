@@ -3,7 +3,7 @@ package webCore.handler
 import be.objectify.deadbolt.scala.models.Subject
 import be.objectify.deadbolt.scala.{AuthenticatedRequest, DeadboltHandler, DynamicResourceHandler}
 import com.google.inject.Inject
-import core.daos.UserDao
+import core.daos.SubjectDao
 import webCore.views.html.security.{denied, login}
 import play.api.mvc.{Request, Result, Results}
 import play.twirl.api.HtmlFormat
@@ -14,7 +14,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class MyDeadboltHandler @Inject() (
-  val userDao: UserDao
+  val subjectDao: SubjectDao
 ) extends DeadboltHandler {
 
   override def beforeAuthCheck[A](request: Request[A]): Future[Option[Result]] = Future {None}
@@ -25,7 +25,7 @@ class MyDeadboltHandler @Inject() (
     request.subject match {
       case s @ Some(_) => Future(s)
       case None => request.session.get("login") match {
-        case Some(userId) => userDao.byLogin(userId)
+        case Some(userId) => subjectDao.subjectByIdentifier(userId)
         case None         => Future(None)
       }
     }

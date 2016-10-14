@@ -24,4 +24,11 @@ class Application @Inject() (
       Ok(webCore.views.html.index(login))
     }
   }
+
+  def employeeIndex = actions.roleAction("employee") { implicit authRequest =>
+    Future {
+      val login = authRequest.subject.map(s => s.identifier).getOrElse("unknown")
+      Ok(webCore.views.html.employeeIndex(login))
+    }
+  }
 }

@@ -63,7 +63,7 @@ class LoginController @Inject() (
                             )
                           }
                           else {
-                            implicit val errors = Seq("Invalid user: $login")
+                            implicit val errors = Seq(s"Invalid user: $login")
                             Future.successful( BadRequest(webCore.views.html.security.login(loginForm)) )
                           }
                         )
