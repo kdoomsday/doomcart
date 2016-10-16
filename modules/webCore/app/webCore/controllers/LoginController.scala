@@ -1,15 +1,15 @@
 package webCore.controllers
 
-import play.api.mvc.{ Action, Controller, Request }
+import play.api.mvc.{Action, Controller, Request}
 import play.api.data._
 import play.api.data.Forms._
 import play.api.Logger
-
 import core.daos.UserDao
 import webCore.actions.Actions
-
 import be.objectify.deadbolt.scala.ActionBuilders
 import javax.inject.Inject
+
+import core.crypto.HashService
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -22,7 +22,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class LoginController @Inject() (
     val actionBuilder: ActionBuilders,
     val userDao:       UserDao,
-    val actions:       Actions
+    val actions:       Actions,
+    val hashService:   HashService
 ) extends Controller {
 
   import LoginController.loginForm
@@ -85,7 +86,7 @@ class LoginController @Inject() (
   private[this] def authenticate(login: String, password: String): Future[Boolean] = {
     userDao.byLogin(login).map(oUser =>
       oUser.fold(false)(user =>
-        user.password == password
+        user.password == hashService.hashString(password, user.salt)
       )
     )
   }

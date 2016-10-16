@@ -2,7 +2,8 @@ import sbt._
 
 object Common {
   val coreDependencies = Seq(
-    "com.github.nscala-time" %% "nscala-time" % "2.14.0"
+    "com.github.nscala-time" %% "nscala-time" % "2.14.0",
+    "org.scalacheck" %% "scalacheck" % "1.13.2" % "test"
   )
 
   val dbDependencies = Seq(

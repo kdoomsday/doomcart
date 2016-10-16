@@ -1,7 +1,8 @@
 package bindings
 
 import com.google.inject.AbstractModule
-import core.daos.{ UserDao, UserDaoSlick, SubjectDao, SubjectDaoSlick }
+import core.crypto.{HashService, MessageDigestHashService}
+import core.daos.{SubjectDao, SubjectDaoSlick, UserDao, UserDaoSlick}
 
 /**
   * User: Eduardo Barrientos
@@ -13,5 +14,6 @@ class DefaultBindings extends AbstractModule {
   def configure() = {
     bind(classOf[UserDao]).to(classOf[UserDaoSlick])
     bind(classOf[SubjectDao]) to classOf[SubjectDaoSlick]
+    bind(classOf[HashService]) toInstance MessageDigestHashService.Sha256HashService
   }
 }

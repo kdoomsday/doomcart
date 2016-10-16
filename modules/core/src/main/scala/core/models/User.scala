@@ -15,6 +15,7 @@ case class User (
   id:           Long,
   login:        String,
   password:     String,
+  salt:         Int,
   roleId:       Int,
   connected:    Boolean,
   lastActivity: Option[Instant]
@@ -29,23 +30,24 @@ trait UserTable {
     def id           = column[Long]  ("id", O.PrimaryKey, O.AutoInc)
     def login        = column[String]("login")
     def password     = column[String]("password")
+    def salt         = column[Int]("salt")
     def roleId       = column[Int]("role_id")
     def connected    = column[Boolean]("connected")
     def lastActivity = column[Option[Timestamp]]("last_activity")
 
     def idxLogin = index("uk_login", login, unique = true)
 
-    def * = (id, login, password, roleId, connected, lastActivity).shaped <> (userTupled, userUnapply)
+    def * = (id, login, password, salt, roleId, connected, lastActivity).shaped <> (userTupled, userUnapply)
   }
 
   // User -> Option[Tuple]
   def userUnapply(u: User) =
-    Some((u.id, u.login, u.password, u.roleId, u.connected, u.lastActivity.map(instant2Timestamp)))
+    Some((u.id, u.login, u.password, u.salt, u.roleId, u.connected, u.lastActivity.map(instant2Timestamp)))
 
   // Tuple -> User
-  def userTupled(row: (Long, String, String, Int, Boolean, Option[Timestamp])): User = {
-    val (id, login, pwd, roleId, connected, oLastAct) = row
-    User(id, login, pwd, roleId, connected, oLastAct.map(timestamp2Instant))
+  def userTupled(row: (Long, String, String, Int, Int, Boolean, Option[Timestamp])): User = {
+    val (id, login, pwd, salt, roleId, connected, oLastAct) = row
+    User(id, login, pwd, salt, roleId, connected, oLastAct.map(timestamp2Instant))
   }
 
   // Conversions
