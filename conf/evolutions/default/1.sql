@@ -1,12 +1,12 @@
 # --- !Ups
 
 CREATE TABLE roles (
-  id  serial primary key,
+  id  serial PRIMARY KEY,
   name varchar(255) NOT NULL
 );
 
 CREATE TABLE users (
-    id            bigserial    NOT NULL primary key,
+    id            bigserial    NOT NULL PRIMARY KEY,
     login         varchar(255) NOT NULL,
     password      varchar(255) NOT NULL,
     role_id       int NOT NULL REFERENCES roles(id),
@@ -16,6 +16,12 @@ CREATE TABLE users (
     last_activity timestamp,
 
     CONSTRAINT uq_login UNIQUE(login)
+);
+
+CREATE TABLE products (
+  id    bigserial      NOT NULL PRIMARY KEY,
+  name  varchar(255)   NOT NULL,
+  price numeric(15, 2) NOT NULL
 );
 
 
