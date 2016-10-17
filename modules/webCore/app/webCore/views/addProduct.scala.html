@@ -1,12 +1,12 @@
 @** Add a product to the system *@
-@(form: Form[webCore.controllers.ProductAdmin.ProductInfo])
+@(form: Form[core.daos.ProductDao.ProductInfo])
 
 @main("Add product") {
   <div class="container">
-    <div class="row">
-      <h1>Create new product</h1>
+    <h1>Create new product</h1>
 
-      <form action="#" role="form">
+    <div class="row">
+      <form action="#" role="form" method="post">
         @inputs.text(form("name"), "Name", "Product name", divClass = "col s12 m6", required=true)
         @inputs.text(form("price"), "Price", "Product price", divClass = "col s12 m6", required=true)
 

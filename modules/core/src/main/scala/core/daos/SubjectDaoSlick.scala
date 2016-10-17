@@ -18,6 +18,7 @@ class SubjectDaoSlick @Inject() (val dcp: DatabaseConfigProvider)
   import dc.driver.api._
 
   private[this] val db = dc.db
+
   override def subjectByIdentifier(identifier: String): Future[Option[MySubject]] = {
     db.run {
       (for {
