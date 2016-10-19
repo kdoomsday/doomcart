@@ -5,16 +5,17 @@
 # Home page
 GET     /                           controllers.Application.index
 
-# Home page
-POST    /insert                     controllers.Application.insert
 
-GET     /json/all                   controllers.Application.jsonFindAll
+GET     /login                controllers.LoginController.loginPage
+POST    /login                controllers.LoginController.login
 
-# Home page
-POST    /json/insert                controllers.Application.jsonInsert
+GET     /logout               controllers.LoginController.logout
 
-# Rutas de subproyectos
-->      /web            webCore.Routes
+GET     /home                 controllers.Application.index
+GET     /employee/lounge      controllers.Application.employeeIndex
+
+GET     /product/add          controllers.ProductAdmin.addProduct
+POST    /product/add          controllers.ProductAdmin.addProductHandle
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

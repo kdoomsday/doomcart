@@ -1,41 +1,30 @@
 package controllers
 
+import play.api.mvc.{ Controller, Action }
 import scala.concurrent.Future
-
-import be.objectify.deadbolt.scala.ActionBuilders
+import scala.concurrent.ExecutionContext.Implicits.global
 import javax.inject.Inject
-import models._
-import play.api.data._
-import play.api.data.Forms._
-import play.api.mvc._
+import be.objectify.deadbolt.scala.ActionBuilders
 
-import scala.language.reflectiveCalls
+import actions.Actions
 
-class Application @Inject() (val actionBuilder: ActionBuilders) extends Controller {
 
-  /*
-  //create an instance of the table
-  val cats = TableQuery[CatsTable] //see a way to architect your app in the computers-database-slick sample
+class Application @Inject() (
+  val actionBuilder: ActionBuilders,
+  val actions: Actions
+) extends Controller {
 
-  //JSON read/write macro
-  implicit val catFormat = Json.format[Cat]
-  */
-
-  def index = actionBuilder.SubjectPresentAction().defaultHandler() { authRequest =>
-    Future.successful( Ok(views.html.index(List())) )
+  def index = actions.timedAction { implicit authRequest =>
+    Future {
+      val login = authRequest.subject.map(s => s.identifier).getOrElse("unknown")
+      Ok(views.html.index(login))
+    }
   }
 
-  val catForm = Form(
-    mapping(
-      "name" -> text(),
-      "color" -> text()
-    )(Cat.apply)(Cat.unapply)
-  )
-
-  def insert = TODO
-
-  def jsonFindAll = TODO
-
-  def jsonInsert = TODO
-
+  def employeeIndex = actions.roleAction("employee") { implicit authRequest =>
+    Future {
+      val login = authRequest.subject.map(s => s.identifier).getOrElse("unknown")
+      Ok(views.html.employeeIndex(login))
+    }
+  }
 }

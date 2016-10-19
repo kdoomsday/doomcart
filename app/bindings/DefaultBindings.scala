@@ -1,8 +1,8 @@
 package bindings
 
 import com.google.inject.AbstractModule
-import core.crypto.{HashService, MessageDigestHashService}
-import core.daos.{SubjectDao, SubjectDaoSlick, UserDao, UserDaoSlick, ProductDao, ProductDaoSlick}
+import crypto.{HashService, MessageDigestHashService}
+import daos.{SubjectDao, SubjectDaoSlick, UserDao, UserDaoSlick, ProductDao, ProductDaoSlick}
 
 /**
   * User: Eduardo Barrientos

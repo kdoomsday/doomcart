@@ -1,0 +1,11 @@
+@import be.objectify.deadbolt.scala.models.Subject
+
+@(maybeSubject: Option[Subject])
+
+@main("Permission denied!") {
+  @maybeSubject.fold(
+    show.errorCard(Seq("No user!"))
+  )(
+    subject => show.errorCard(Seq("Denied for " + subject.identifier))
+  )
+}
