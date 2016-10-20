@@ -1,0 +1,6 @@
+@** Create a notification. It will stay open until dismissed.
+  * @param text  Text to show inside the notification.
+  * @param level Type of notification. Must be one of 'success', 'error' or 'warning'
+  *@
+@(text: String, level: String = "")
+<script type="text/javascript">alertify.notify('@text', '@level', 0);</script>

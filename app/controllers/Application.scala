@@ -4,9 +4,10 @@ import play.api.mvc.{ Controller, Action }
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import javax.inject.Inject
-import be.objectify.deadbolt.scala.ActionBuilders
+import be.objectify.deadbolt.scala.{ ActionBuilders, AuthenticatedRequest }
 
 import actions.Actions
+import models.Notification
 
 
 class Application @Inject() (
@@ -23,8 +24,10 @@ class Application @Inject() (
 
   def employeeIndex = actions.roleAction("employee") { implicit authRequest =>
     Future {
-      val login = authRequest.subject.map(s => s.identifier).getOrElse("unknown")
-      Ok(views.html.employeeIndex(login))
+      Ok(views.html.employeeIndex(getLogin(authRequest)))
     }
   }
+
+  private[this] def getLogin(implicit req: AuthenticatedRequest[_]): String =
+    req.subject.map(s => s.identifier).getOrElse("unknown")
 }

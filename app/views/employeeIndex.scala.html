@@ -1,15 +1,14 @@
-@(login: String)
+@(login: String)(implicit notifications: Seq[models.Notification] = Nil)
 
-@main("Employee Lounge", scripts = List("lib/alertify/build/alertify.js"),
-  styles = List("public/lib/alertify/build/css/alertify.css", "public/lib/alertify/build/css/themes/default.css")) {
+@main("Employee Lounge") {
   <div class="container">
     <div class="row">
       <h1>Logged in as @login</h1>
 
       <p>Hope you've had a productive day</p>
 
-      <a href="@routes.ProductAdmin.addProduct" class="col sm6">Add a product</a>
-      <button class="btn  col sm6">Alert me!</button>
+      <a href="@routes.ProductAdmin.addProduct" class="col sm4">Add a product</a>
+      <button class="btn  col sm4" onclick="alertify.notify('Yay!', 'success', 5)">Alert me!</button>
     </div>
   </div>
 }

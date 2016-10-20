@@ -1,15 +1,15 @@
-@(form: Form[(String, String)], redirectUri: String = "")(implicit errors: Seq[String] = Seq())
+@(form: Form[(String, String)], redirectUri: String = "")(implicit notifications: Seq[Notification] = Nil)
 
 <head>
   <title>Login</title>
   <link type="text/css" rel="stylesheet" href="@routes.Assets.versioned("lib/Materialize/dist/css/materialize.css")"  media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="@routes.Assets.versioned("lib/alertifyjs/build/css/alertify.css")"  media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="@routes.Assets.versioned("lib/alertifyjs/build/css/themes/default.css")"  media="screen,projection"/>
 </head>
 <body>
   <div class="container">
     <div class="row">
       <h1 class="col s12">Login page</h1>
-
-      @show.errorCard(errors)
 
       <form action="@routes.LoginController.login" method="post" role="form">
           <input type="text" name="login" placeholder="login" class="col m5 s12" autofocus>
@@ -20,6 +20,11 @@
     </div>
   </div>
 
-  <script type="text-javascript" src="@routes.Assets.versioned("lib/jquery/dist/jquery.js")"></script>
-  <script type="text-javascript" src="@routes.Assets.versioned("lib/Materialize/dist/js/materialize.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.versioned("lib/jquery/dist/jquery.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.versioned("lib/Materialize/dist/js/materialize.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.versioned("lib/alertifyjs/build/alertify.js")"></script>
+
+  @for(n <- notifications){
+    @show.notification(n.message, n.level)
+  }
 </body>
