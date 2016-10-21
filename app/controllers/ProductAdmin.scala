@@ -27,7 +27,6 @@ class ProductAdmin @Inject() (
     productForm.bindFromRequest.fold(
       formWithErrors => Future.successful(BadRequest(views.html.addProduct(formWithErrors))),
       info => {
-        // TODO send success to user
         productDao.insert(info).map { p =>
           implicit val nots = Seq(Notification("success", "Product created successfully"))
           Ok(views.html.addProduct(productForm))
