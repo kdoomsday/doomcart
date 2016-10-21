@@ -2,7 +2,7 @@ package crypto
 
 import java.nio.charset.{Charset, StandardCharsets}
 
-import core.crypto.{HashService, MessageDigestHashService}
+import crypto.{HashService, MessageDigestHashService}
 import org.scalacheck.Properties
 
 /**

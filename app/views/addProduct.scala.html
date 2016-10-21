@@ -1,5 +1,5 @@
 @** Add a product to the system *@
-@(form: Form[daos.ProductDao.ProductInfo])
+@(form: Form[daos.ProductDao.ProductInfo])(implicit notifications: Seq[models.Notification] = Nil)
 
 @main("Add product") {
   <div class="container">

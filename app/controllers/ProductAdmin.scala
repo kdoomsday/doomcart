@@ -1,5 +1,6 @@
 package controllers
 
+import models.Notification
 import play.api.mvc.Controller
 import play.api.data.Forms._
 import play.api.data._
@@ -28,8 +29,8 @@ class ProductAdmin @Inject() (
       info => {
         // TODO send success to user
         productDao.insert(info).map { p =>
-          //println(p)
-          Redirect(controllers.routes.ProductAdmin.addProduct)
+          implicit val nots = Seq(Notification("success", "Product created successfully"))
+          Ok(views.html.addProduct(productForm))
         }
       }
     )
