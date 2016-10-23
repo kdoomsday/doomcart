@@ -1,6 +1,6 @@
-index.title = Home
-index.header = Welcome, {0}!
-index.employee.text = Employee home
+index.title            = Home
+index.header           = Welcome, {0}!
+index.employee.text    = Employee home
 index.notEmployee.text = Not an employee
 
 LoginController.login.info          = Attempting login
