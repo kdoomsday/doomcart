@@ -1,0 +1,26 @@
+index.title = Home
+index.header = Welcome, {0}!
+index.employee.text = Employee home
+index.notEmployee.text = Not an employee
+
+LoginController.login.info          = Attempting login
+LoginController.login.authError     = Invalid user: {0}
+LoginController.login.authError.log = Failed login attempt for login: {0}
+
+ProductAdmin.addProductHandle.success = Product created successfully
+
+denied.title = Denied
+denied.noUser = No user!
+denied.noPermission = Denied for {0}
+
+UserDaoSlick.byLogin.debug = Requested user by login: {0}
+
+addProduct.header           = Create new product
+addProduct.name.label       = Name
+addProduct.price.label      = Price
+addProduct.submit.text      = Create product
+
+employeeIndex.title            = Employee lounge
+employeeIndex.header           = Logged in as {0}
+employeeIndex.welcomeText      = Hope you are having a productive day!
+employeeIndex.product.add.text = Add a product

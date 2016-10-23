@@ -6,6 +6,7 @@ import java.sql.Timestamp
 import models.{User, UserTable}
 
 import play.api.db.slick.DatabaseConfigProvider
+import play.api.i18n.{ Lang, MessagesApi }
 
 import slick.driver.JdbcProfile
 
@@ -19,7 +20,10 @@ import play.api.Logger
   * Date: 20/09/16
   * Time: 04:25 PM
   */
-class UserDaoSlick @Inject() (val dcp: DatabaseConfigProvider)
+class UserDaoSlick @Inject() (
+  val dcp:         DatabaseConfigProvider,
+  val messagesApi: MessagesApi
+)
   extends UserDao
     with UserTable
 {
@@ -28,14 +32,13 @@ class UserDaoSlick @Inject() (val dcp: DatabaseConfigProvider)
 
   private[this] val db = dc.db
 
-
   override def byId(id: Long): Future[Option[User]] = db.run(
     users.filter(_.id === id).result.headOption
   )
 
 
   override def byLogin(login: String): Future[Option[User]] = {
-    Logger.debug(s"Requested user by login: $login")
+    Logger.debug(messagesApi("UserDaoSlick.byLogin.debug", login))
     db.run( users.filter(_.login === login).result.headOption )
   }
 

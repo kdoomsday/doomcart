@@ -1,9 +1,11 @@
 package controllers
 
+import models.Notification
 import play.api.mvc.{Action, Controller, Request}
 import play.api.data._
 import play.api.data.Forms._
 import play.api.Logger
+import play.api.i18n.{ I18nSupport, MessagesApi }
 import be.objectify.deadbolt.scala.ActionBuilders
 import javax.inject.Inject
 import scala.concurrent.Future
@@ -23,8 +25,9 @@ class LoginController @Inject() (
     val actionBuilder: ActionBuilders,
     val userDao:       UserDao,
     val actions:       Actions,
-    val hashService:   HashService
-) extends Controller {
+    val hashService:   HashService,
+    val messagesApi:   MessagesApi
+) extends Controller with I18nSupport {
 
   import LoginController.loginForm
 
@@ -50,7 +53,7 @@ class LoginController @Inject() (
 
   /** Handle the user logging in */
   def login = Action.async { implicit request =>
-    Logger.info("Attempting login")
+    Logger.info(messagesApi("LoginController.login.info"))
     loginForm.bindFromRequest.fold(
       formWithErrors => Future( BadRequest(views.html.security.login(formWithErrors)) ),
 
@@ -64,7 +67,8 @@ class LoginController @Inject() (
                             )
                           }
                           else {
-                            implicit val errors = Seq(s"Invalid user: $login")
+                            Logger.info(messagesApi("LoginController.login.authError.log", login))
+                            implicit val errors = Seq(Notification("error", messagesApi("LoginController.login.authError", login)))
                             Future.successful( BadRequest(views.html.security.login(loginForm)) )
                           }
                         )

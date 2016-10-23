@@ -1,13 +1,13 @@
-@(login: String)(implicit notifications: Seq[models.Notification] = Nil)
+@(login: String)(implicit messages: Messages, notifications: Seq[models.Notification] = Nil)
 
-@main("Employee Lounge") {
+@main(messages("employeeIndex.title")) {
   <div class="container">
     <div class="row">
-      <h1>Logged in as @login</h1>
+      <h1>@messages("employeeIndex.header", login)</h1>
 
-      <p>Hope you've had a productive day</p>
+      <p>@messages( "employeeIndex.welcomeText" )</p>
 
-      <a href="@routes.ProductAdmin.addProduct" class="col sm4">Add a product</a>
+      <a href="@routes.ProductAdmin.addProduct" class="col sm4">@messages( "employeeIndex.product.add.text" )</a>
       <button class="btn  col sm4" onclick="alertify.notify('Yay!', 'success', 5)">Alert me!</button>
     </div>
   </div>

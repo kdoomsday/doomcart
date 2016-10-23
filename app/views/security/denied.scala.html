@@ -1,11 +1,11 @@
 @import be.objectify.deadbolt.scala.models.Subject
 
-@(maybeSubject: Option[Subject])
+@(maybeSubject: Option[Subject])(implicit messages: Messages)
 
-@main("Permission denied!") {
+@main(messages("denied.title")) {
   @maybeSubject.fold(
-    show.errorCard(Seq("No user!"))
+    show.errorCard(Seq(messages("denied.noUser")))
   )(
-    subject => show.errorCard(Seq("Denied for " + subject.identifier))
+    subject => show.errorCard(Seq(messages("denied.noPermission", subject.identifier)))
   )
 }

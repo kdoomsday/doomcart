@@ -2,18 +2,18 @@
 @import be.objectify.deadbolt.scala.views.html.{ restrict, restrictOr }
 @import be.objectify.deadbolt.scala.AuthenticatedRequest
 
-@(login: String)(implicit req: AuthenticatedRequest[_])
+@(login: String)(implicit messages: Messages, req: AuthenticatedRequest[_])
 
-@main("Title") {
+@main( messages("index.title") ) {
   <div class="container">
-    <h1>Welcome, <strong>@login</strong></h1>
+    <h1>@messages("index.header", login)</h1>
 
     <div class="row">
       <div class="col sm-6">
         @restrictOr(roles = List(Array("employee"))) {
-          <a href="@routes.Application.employeeIndex">Employee Lounge</a>
+          <a href="@routes.Application.employeeIndex">@messages( "index.employee.text" )</a>
         } {
-          <p>Not an employee</p>
+          <p>@messages( "index.notEmployee.text" )</p>
         }
     </div>
       <div class="col sm-6">

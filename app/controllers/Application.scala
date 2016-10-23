@@ -1,19 +1,20 @@
 package controllers
 
-import play.api.mvc.{ Controller, Action }
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-import javax.inject.Inject
-import be.objectify.deadbolt.scala.{ ActionBuilders, AuthenticatedRequest }
+import scala.concurrent.Future
 
 import actions.Actions
-import models.Notification
+import be.objectify.deadbolt.scala.{ActionBuilders, AuthenticatedRequest}
+import javax.inject.Inject
+import play.api.i18n.{MessagesApi, I18nSupport}
+import play.api.mvc.{Action, Controller}
 
 
 class Application @Inject() (
   val actionBuilder: ActionBuilders,
-  val actions: Actions
-) extends Controller {
+  val actions: Actions,
+  val messagesApi: MessagesApi
+) extends Controller with I18nSupport {
 
   def index = actions.timedAction { implicit authRequest =>
     Future {

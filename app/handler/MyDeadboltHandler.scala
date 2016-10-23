@@ -5,6 +5,7 @@ import be.objectify.deadbolt.scala.{AuthenticatedRequest, DeadboltHandler, Dynam
 import com.google.inject.Inject
 import play.api.mvc.{Request, Result, Results}
 import play.twirl.api.HtmlFormat
+import play.api.i18n.{ I18nSupport, MessagesApi }
 
 import daos.SubjectDao
 import controllers.LoginController
@@ -14,8 +15,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class MyDeadboltHandler @Inject() (
-  val subjectDao: SubjectDao
-) extends DeadboltHandler {
+  val subjectDao:  SubjectDao,
+  val messagesApi: MessagesApi
+) extends DeadboltHandler with I18nSupport {
 
   override def beforeAuthCheck[A](request: Request[A]): Future[Option[Result]] = Future {None}
 
