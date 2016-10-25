@@ -24,6 +24,10 @@ CREATE TABLE products (
   price numeric(15, 2) NOT NULL
 );
 
+CREATE TABLE product_images (
+  product_id bigint NOT NULL REFERENCES products(id),
+  image_url  varchar(300) NOT NULL
+);
 
 insert into roles(name) values ('employee');
 
@@ -35,3 +39,7 @@ values ('admin', 'c674d9cdee160ebec3ed9ec138ac473480054483f185be25c27e51f35f3017
 drop table users;
 
 drop table roles;
+
+drop table products;
+
+drop table product_images;

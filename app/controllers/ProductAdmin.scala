@@ -25,11 +25,14 @@ class ProductAdmin @Inject() (
     Future.successful( Ok(views.html.addProduct(productForm)) )
   }
 
-  def addProductHandle = actions.roleAction("employee") { implicit request =>
+  def addProductHandle = actions.roleActionP("employee")(parse.multipartFormData) { implicit request =>
     productForm.bindFromRequest.fold(
       formWithErrors => Future.successful(BadRequest(views.html.addProduct(formWithErrors))),
       info => {
         productDao.insert(info).map { p =>
+          request.body.file("image").map { picture =>
+            println(picture.filename)
+          }
           implicit val nots = Seq(Notification("success", messagesApi("ProductAdmin.addProductHandle.success")))
           Ok(views.html.addProduct(productForm))
         }

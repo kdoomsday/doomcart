@@ -1,6 +1,6 @@
 package actions
 
-import play.api.mvc.{ Controller, Result }
+import play.api.mvc.{ Action, AnyContent, BodyParser, Controller, Result }
 
 import daos.UserDao
 import models.User
@@ -21,8 +21,36 @@ class Actions @Inject() (
 ) extends Controller {
   val timeout = 5.minutes
 
+
+  /** Add session timeout checking to an action */
+  def timedAction[A](parser: BodyParser[A] = parse.default)
+                    (block: AuthenticatedRequest[A] => Future[Result]): Action[A] =
+  {
+    deadbolt.SubjectPresent()(parser) { authRequest =>
+      timeCheck(authRequest, block)
+    }
+  }
+
+  def timedAction(block: AuthenticatedRequest[_] => Future[Result]): Action[AnyContent] =
+    timedAction(parse.default)(block)
+
+  /** Action that checks for a role and session timeout */
+  def roleActionP[A](rolename: String)(parser: BodyParser[A] = parse.default)
+                   (block: AuthenticatedRequest[A] => Future[Result]): Action[A] =
+  {
+    deadbolt.Restrict(List(Array(rolename)))(parser) { authRequest =>
+      timeCheck(authRequest, block)
+    }
+  }
+
+
+  def roleAction(rolename: String)
+                (block: AuthenticatedRequest[_] => Future[Result]): Action[AnyContent] =
+    roleActionP(rolename)(parse.default)(block)
+
+
   /** Applies a session timeout check. Is used for combining into other actions */
-  private[this] def timeCheck(req: AuthenticatedRequest[_], block: AuthenticatedRequest[_] => Future[Result]) =
+  private[this] def timeCheck[A](req: AuthenticatedRequest[A], block: AuthenticatedRequest[A] => Future[Result]) =
     userDao.byLogin(req.session.get("login").get) flatMap { ou =>
       ou.fold(notLoggedIn)(u =>
         if ( isStillIn(u) ) {
@@ -30,12 +58,6 @@ class Actions @Inject() (
         }
         else notLoggedIn
       )
-  }
-
-  /** Add session timeout checking to an action */
-  def timedAction(block: AuthenticatedRequest[_] => Future[Result]) =
-    deadbolt.SubjectPresent()() { authRequest =>
-      timeCheck(authRequest, block)
     }
 
   /** Whether a user is connected and not timed out */
@@ -48,9 +70,5 @@ class Actions @Inject() (
     Future.successful( Redirect(controllers.routes.LoginController.loginPage) )
 
 
-  /** Action that checks for a role and session timeout */
-  def roleAction(rolename: String)(block: AuthenticatedRequest[_] => Future[Result]) =
-    deadbolt.Restrict(List(Array(rolename)))() { authRequest =>
-      timeCheck(authRequest, block)
-    }
+  
 }
