@@ -5,7 +5,7 @@ import models.Product
 
 object ProductDao {
   /** Basic product information used to create it */
-  case class ProductInfo(name: String, price: BigDecimal)
+  case class ProductInfo(name: String, price: BigDecimal, url: Option[String])
 }
 
 
