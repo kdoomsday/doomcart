@@ -26,7 +26,8 @@ CREATE TABLE products (
 
 CREATE TABLE product_images (
   product_id bigint NOT NULL REFERENCES products(id),
-  image_url  varchar(300) NOT NULL
+  image_url  varchar(300) NOT NULL,
+  primary key (product_id, image_url)
 );
 
 insert into roles(name) values ('employee');
@@ -40,6 +41,6 @@ drop table users;
 
 drop table roles;
 
-drop table products;
-
 drop table product_images;
+
+drop table products;

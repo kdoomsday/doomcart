@@ -1,7 +1,6 @@
 package controllers
 
-import java.io.File
-import java.util.UUID
+import daos.ImgSave
 import models.Notification
 import play.api.libs.Files.TemporaryFile
 import play.api.mvc.{ Controller, MultipartFormData => MPFD }
@@ -18,9 +17,10 @@ import daos.ProductDao
 
 /** Controller for product actions */
 class ProductAdmin @Inject() (
-  val actions:    Actions,
-  val productDao: ProductDao,
-  val messagesApi:   MessagesApi
+  val actions:     Actions,
+  val productDao:  ProductDao,
+  val imgSave:     ImgSave,
+  val messagesApi: MessagesApi
 ) extends Controller with I18nSupport {
 
   import ProductAdmin.productForm
@@ -33,26 +33,19 @@ class ProductAdmin @Inject() (
     productForm.bindFromRequest.fold(
       formWithErrors => Future.successful(BadRequest(views.html.addProduct(formWithErrors))),
       info => {
-        productDao.insert(info.copy(url = moveFile(request.body.file("image")))).map { p =>
+        val oImage: Option[FilePart[TemporaryFile]] = request.body.file("image")
+        val fp = oImage match {
+          case Some(image) => productDao.insertWithImage(info, image).map { case(p, _) => p }
+          case None        => productDao.insert(info)
+        }
+
+        fp map { p =>
           implicit val nots = Seq(Notification("success", messagesApi("ProductAdmin.addProductHandle.success")))
           Ok(views.html.addProduct(productForm))
         }
       }
     )
   }
-
-  /** Backup the file to a known location.
-    * @return Option[String] with the actual location, if there was a file to begin with
-    */
-  private[this] def moveFile(ofp: Option[FilePart[TemporaryFile]]): Option[String] = {
-    ofp.map { picture =>
-      val dest = new File("/home/doomsday/images/", UUID.randomUUID() + picture.filename)
-      dest.mkdirs()
-      picture.ref.moveTo(dest, true)
-      dest.toURI().toURL().toString()
-    }
-  }
-
 }
 
 object ProductAdmin {
@@ -61,8 +54,7 @@ object ProductAdmin {
   lazy val productForm = Form(
     mapping(
       "name"  -> nonEmptyText,
-      "price" -> bigDecimal(17, 2),
-      "image" -> optional(text)
+      "price" -> bigDecimal(17, 2)
     )(ProductInfo.apply)(ProductInfo.unapply)
   )
 }
