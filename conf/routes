@@ -17,5 +17,8 @@ GET     /employee/lounge      controllers.Application.employeeIndex
 GET     /product/add          controllers.ProductAdmin.addProduct
 POST    /product/add          controllers.ProductAdmin.addProductHandle
 
+GET     /product/addImage/:id  controllers.ProductAdmin.addImageView(id: Long)
+POST    /product/addImage/:id  controllers.ProductAdmin.addImage(id: Long)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

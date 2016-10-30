@@ -8,6 +8,8 @@ LoginController.login.authError     = Invalid user: {0}
 LoginController.login.authError.log = Failed login attempt for login: {0}
 
 ProductAdmin.addProductHandle.success = Product created successfully
+ProductAdmin.addImage.success         = Image added successfully
+ProductAdmin.addImage.noImage         = There was no image!
 
 denied.title = Denied
 denied.noUser = No user!
@@ -19,6 +21,9 @@ addProduct.header           = Create new product
 addProduct.name.label       = Name
 addProduct.price.label      = Price
 addProduct.submit.text      = Create product
+
+addProductImage.title  = Add image to product
+addProductImage.header = Select an image to add to the product
 
 employeeIndex.title            = Employee lounge
 employeeIndex.header           = Logged in as {0}
