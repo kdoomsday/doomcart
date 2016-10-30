@@ -64,6 +64,12 @@ class ProductAdmin @Inject() (
       }
     }
   }
+
+  def productInfo(pid: Long) = actions.timedAction { req =>
+    productDao.product(pid).map { case (p, pimages) =>
+      Ok( views.html.product.product(p, pimages) )
+    }
+  }
 }
 
 object ProductAdmin {

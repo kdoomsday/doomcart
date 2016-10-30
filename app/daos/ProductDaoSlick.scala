@@ -55,4 +55,17 @@ class ProductDaoSlick @Inject() (
     val pi = ProductImage(pid, url)
     ( productImages += pi ).map(_ => pi) 
   }
+
+
+  def product(pid: Long): Future[(Product, Seq[ProductImage])] = {
+    val qprod = products.filter(_.id === pid).result.head
+    val pimages = productImages.filter(_.productId === pid).result
+
+    db.run {
+      for {
+        prod <- qprod
+        pis  <- pimages
+      } yield (prod, pis)
+    }
+  }
 }

@@ -34,4 +34,9 @@ trait ProductDao {
     */
   def insertWithImage(pInfo: ProductInfo, filePart: FilePart[TemporaryFile])
       : Future[(Product, ProductImage)]
+
+  /** Get a product by Id with it's images
+    * @param pid Product ID
+    */
+  def product(pid: Long): Future[(Product, Seq[ProductImage])]
 }

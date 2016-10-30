@@ -29,3 +29,11 @@ employeeIndex.title            = Employee lounge
 employeeIndex.header           = Logged in as {0}
 employeeIndex.welcomeText      = Hope you are having a productive day!
 employeeIndex.product.add.text = Add a product
+
+product.title            = Product Info
+product.header           = Product information
+product.info.name        = {0}
+product.info.price.label = Price
+product.info.price.text  = {0}
+product.info.image.alt   = The product image
+product.info.noImage     = No image for this product

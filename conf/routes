@@ -14,6 +14,8 @@ GET     /logout               controllers.LoginController.logout
 GET     /home                 controllers.Application.index
 GET     /employee/lounge      controllers.Application.employeeIndex
 
+GET     /product/:id          controllers.ProductAdmin.productInfo(id: Long) 
+
 GET     /product/add          controllers.ProductAdmin.addProduct
 POST    /product/add          controllers.ProductAdmin.addProductHandle
 
