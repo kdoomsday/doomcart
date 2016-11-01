@@ -22,7 +22,7 @@
                   <p>@messages("product.info.noImage")</p>
                 } else {
                   @for(image <- pimages) {
-                    <img src="@image.imageUrl" alt="@messages("product.info.image.alt")">
+                    <img src="@routes.ImageServer.image(image.imageUrl)" alt="@messages("product.info.image.alt")">
                   }
                 }
             </div>

@@ -20,6 +20,6 @@ class ImgSaveImpl @Inject() (configuration: Configuration) extends ImgSave {
     val dest = new File(subdir, UUID.randomUUID() + filePart.filename)
     dest.mkdirs()
     filePart.ref.moveTo(dest, true)
-    dest.toURI().toURL().toString()
+    s"$productId/${dest.getName}"
   }
 }
