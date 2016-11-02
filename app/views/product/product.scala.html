@@ -7,22 +7,22 @@
         <h1>@messages("product.header")</h1>
 
         <div class="row">
-            <div id="info">
-                <h2 class="col-sm-12">@messages("product.info.name", p.name)</h2>
-                <div class="col-sm-4 strong">
+            <div id="info" class="col s6">
+                <h2 class="col s12">@messages("product.info.name", p.name)</h2>
+                <div class="col s4 strong">
                     @messages("product.info.price.label")
                 </div>
-                <div class="col-sm-8">
+                <div class="col s8">
                     @messages("product.info.price.text", p.price)
                 </div>
             </div>
 
-            <div id="image">
+            <div id="image" class="col s6">
                 @if(pimages.isEmpty) {
                   <p>@messages("product.info.noImage")</p>
                 } else {
                   @for(image <- pimages) {
-                    <img src="@routes.ImageServer.image(image.imageUrl)" alt="@messages("product.info.image.alt")">
+                    <img class="col s12" src="@routes.ImageServer.image(image.imageUrl)" alt="@messages("product.info.image.alt")">
                   }
                 }
             </div>
