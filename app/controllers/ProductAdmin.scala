@@ -40,7 +40,7 @@ class ProductAdmin @Inject() (
         }
 
         fp map { p =>
-          implicit val nots = Seq(Notification("success", messagesApi("ProductAdmin.addProductHandle.success")))
+          implicit val nots = Notification.success(messagesApi("ProductAdmin.addProductHandle.success"))
           Ok(views.html.addProduct(productForm))
         }
       }
@@ -53,12 +53,12 @@ class ProductAdmin @Inject() (
 
   def addImage(productId: Long) = actions.roleActionP("employee")(parse.multipartFormData) { implicit req =>
     req.body.file("image").fold {
-      implicit val nots = Seq(Notification("warn", messagesApi("ProductAdmin.addImage.noImage")))
+      implicit val nots = Notification.warn( messagesApi("ProductAdmin.addImage.noImage") )
       Future.successful( Redirect( routes.Application.employeeIndex() ) )
     }{
       fpart => {
         productDao.addImage(productId, fpart).map {_ =>
-          implicit val nots = Seq(Notification("success", messagesApi("ProductAdmin.addImage.success")))
+          implicit val nots = Notification.success( messagesApi("ProductAdmin.addImage.success") )
           Redirect(routes.Application.employeeIndex())
         }
       }

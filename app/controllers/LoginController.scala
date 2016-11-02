@@ -68,7 +68,7 @@ class LoginController @Inject() (
                           }
                           else {
                             Logger.info(messagesApi("LoginController.login.authError.log", login))
-                            implicit val errors = Seq(Notification("error", messagesApi("LoginController.login.authError", login)))
+                            implicit val errors = Notification.error( messagesApi("LoginController.login.authError", login) )
                             Future.successful( BadRequest(views.html.security.login(loginForm)) )
                           }
                         )
