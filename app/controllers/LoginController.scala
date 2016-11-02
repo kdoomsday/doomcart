@@ -12,6 +12,7 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 import daos.UserDao
+import audits.EventDao
 import actions.Actions
 import crypto.HashService
 
@@ -24,6 +25,7 @@ import crypto.HashService
 class LoginController @Inject() (
     val actionBuilder: ActionBuilders,
     val userDao:       UserDao,
+    val eventDao:      EventDao,
     val actions:       Actions,
     val hashService:   HashService,
     val messagesApi:   MessagesApi
@@ -60,24 +62,25 @@ class LoginController @Inject() (
       userData => {
         val (login, pwd) = userData
         authenticate(login, pwd) flatMap (valid =>
-                          if (valid) {
-                            Logger.debug(s"User $login is valid")
-                            userDao.updateConnected(login) map (_ =>
-                              Redirect(routes.Application.index).withSession("login" -> login)
-                            )
-                          }
-                          else {
-                            Logger.info(messagesApi("LoginController.login.authError.log", login))
-                            implicit val errors = Notification.error( messagesApi("LoginController.login.authError", login) )
-                            Future.successful( BadRequest(views.html.security.login(loginForm)) )
-                          }
-                        )
+          if (valid) {
+            eventDao.write( messagesApi("LoginController.login.aud.success", login) )
+            userDao.updateConnected(login) map (_ =>
+              Redirect(routes.Application.index).withSession("login" -> login)
+            )
+          }
+          else {
+            eventDao.write( messagesApi("LoginController.login.aud.error", login) )
+            implicit val errors = Notification.error( messagesApi("LoginController.login.authError", login) )
+            Future.successful( BadRequest(views.html.security.login(loginForm)) )
+          }
+        )
       }
     )
   }
 
 
-  def logout = Action {
+  def logout = Action { request =>
+    eventDao.write( messagesApi("LoginController.logout.aud", request("login")) )
     Redirect(routes.LoginController.loginPage()).withNewSession
   }
 

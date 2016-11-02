@@ -14,11 +14,13 @@ import javax.inject.Inject
 
 import actions.Actions
 import daos.ProductDao
+import audit.EventDao
 
 /** Controller for product actions */
 class ProductAdmin @Inject() (
   val actions:     Actions,
   val productDao:  ProductDao,
+  val eventDao:    EventDao,
   val imgSave:     ImgSave,
   val messagesApi: MessagesApi
 ) extends Controller with I18nSupport {
@@ -40,6 +42,7 @@ class ProductAdmin @Inject() (
         }
 
         fp map { p =>
+          eventDao.write( messagesApi("ProductAdmin.addProductHandle.aud", p.id) )
           implicit val nots = Notification.success(messagesApi("ProductAdmin.addProductHandle.success"))
           Ok(views.html.addProduct(productForm))
         }
@@ -57,7 +60,8 @@ class ProductAdmin @Inject() (
       Future.successful( Redirect( routes.Application.employeeIndex() ) )
     }{
       fpart => {
-        productDao.addImage(productId, fpart).map {_ =>
+        productDao.addImage(productId, fpart).map { pi =>
+          eventDao.write( messagesApi("ProductAdmin.addImage.aud", productId, pi.imageUrl) )
           implicit val nots = Notification.success( messagesApi("ProductAdmin.addImage.success") )
           Redirect(routes.Application.employeeIndex())
         }

@@ -5,11 +5,15 @@ index.notEmployee.text = Not an employee
 
 LoginController.login.info          = Attempting login
 LoginController.login.authError     = Invalid user: {0}
-LoginController.login.authError.log = Failed login attempt for login: {0}
+LoginController.login.aud.success   = Successful login for {0}
+LoginController.login.aud.error     = Falied login attempr for login: {0}
+LoginController.logout.aud        = {0} logging out
 
 ProductAdmin.addProductHandle.success = Product created successfully
+ProductAdmin.addProductHandle.aud     = Product created: {0}
 ProductAdmin.addImage.success         = Image added successfully
 ProductAdmin.addImage.noImage         = There was no image!
+ProductAdmin.addImage.aud             = Add image to product {0} ({1})
 
 denied.title = Denied
 denied.noUser = No user!
