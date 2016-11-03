@@ -50,3 +50,5 @@ drop table roles;
 drop table product_images;
 
 drop table products;
+
+drop table events;
