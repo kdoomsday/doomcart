@@ -17,10 +17,11 @@ denied.noPermission = Denied for {0}
 
 UserDaoSlick.byLogin.debug = Requested user by login: {0}
 
-addProduct.header           = Create new product
-addProduct.name.label       = Name
-addProduct.price.label      = Price
-addProduct.submit.text      = Create product
+addProduct.title       = Add product
+addProduct.header      = Create new product
+addProduct.name.label  = Name
+addProduct.price.label = Price
+addProduct.submit.text = Create product
 
 addProductImage.title  = Add image to product
 addProductImage.header = Select an image to add to the product
