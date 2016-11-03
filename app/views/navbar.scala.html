@@ -1,0 +1,40 @@
+@* Application navbar *@
+@import be.objectify.deadbolt.scala.views.html.restrict
+@import be.objectify.deadbolt.scala.AuthenticatedRequest
+
+@()(implicit messages: Messages, req: AuthenticatedRequest[Any])
+<nav>
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo left">@messages("navbar.brand.text")</a>
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="@routes.Application.index">@messages("navbar.index.text")</a></li>
+
+            @restrict(roles = List(Array("employee"))) {
+                <li><a href="@routes.Application.employeeIndex">@messages("navbar.employeeIndex.text")</a></li>
+            }
+
+           <li><a href="@routes.LoginController.logout" class="right" title="@messages("navbar.logout.title")">
+               <i class="material-icons">power_settings_new</i>
+           </a></li>
+        </ul>
+        <ul id="nav-mobile" class="side-nav">
+            <li><a href="@routes.Application.index">@messages("navbar.employeeIndex.text")</a></li>
+
+            @restrict(roles = List(Array("employee"))) {
+                <li><a href="@routes.Application.employeeIndex">@messages("navbar.index.text")</a></li>
+            }
+
+           <li><a href="@routes.LoginController.logout" class="center" title="@messages("navbar.logout.title")">
+               <i class="material-icons">power_settings_new</i>
+           </a></li>
+        </ul>
+
+    </div>
+</nav>
+
+<script type="text/javascript">
+    $( document ).ready(function() {
+        $(".button-collapse").sideNav();
+    });
+</script>

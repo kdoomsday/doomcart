@@ -27,7 +27,7 @@ class ProductAdmin @Inject() (
 
   import ProductAdmin.productForm
 
-  def addProduct = actions.roleAction("employee") { _ =>
+  def addProduct = actions.roleAction("employee") { implicit req =>
     Future.successful( Ok(views.html.addProduct(productForm)) )
   }
 
@@ -69,7 +69,7 @@ class ProductAdmin @Inject() (
     }
   }
 
-  def productInfo(pid: Long) = actions.timedAction { req =>
+  def productInfo(pid: Long) = actions.timedAction { implicit req =>
     productDao.product(pid).map { case (p, pimages) =>
       Ok( views.html.product.product(p, pimages) )
     }

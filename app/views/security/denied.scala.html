@@ -1,6 +1,11 @@
 @import be.objectify.deadbolt.scala.models.Subject
+@import be.objectify.deadbolt.scala.AuthenticatedRequest
 
-@(maybeSubject: Option[Subject])(implicit messages: Messages)
+@(maybeSubject: Option[Subject])(
+    implicit
+    messages: Messages,
+    request: AuthenticatedRequest[Any]
+)
 
 @main(messages("denied.title")) {
   @maybeSubject.fold(

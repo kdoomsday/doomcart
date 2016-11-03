@@ -1,11 +1,16 @@
-@(product: models.Product)(implicit messages: Messages, notifications: Seq[models.Notification] = Nil)
+@import be.objectify.deadbolt.scala.AuthenticatedRequest
+
+@(product: models.Product)(
+    implicit
+    messages: Messages,
+    request: AuthenticatedRequest[Any],
+    notifications: Seq[models.Notification] = Nil
+)
 
 @main( messages("addProductImage.title") ) {
-    <div class="container">
-        <h1>@messages("addProductImage.header")</h1>
+    <h1>@messages("addProductImage.header")</h1>
 
-        <div class="row">
-            <form action=""
-        </div>
+    <div class="row">
+        <form action=""
     </div>
 }

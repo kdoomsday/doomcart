@@ -37,6 +37,7 @@ CREATE TABLE events (
 );
 
 insert into roles(name) values ('employee');
+insert into roles(name) values ('user');
 
 insert into users(login, password, salt, role_id)
 values ('admin', 'c674d9cdee160ebec3ed9ec138ac473480054483f185be25c27e51f35f30175f', 42, (select id from roles where name='employee'));

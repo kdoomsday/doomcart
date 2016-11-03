@@ -1,14 +1,19 @@
-@(login: String)(implicit messages: Messages, notifications: Seq[models.Notification] = Nil)
+@import be.objectify.deadbolt.scala.AuthenticatedRequest
+
+@(login: String)(
+    implicit
+    messages: Messages,
+    request: AuthenticatedRequest[Any],
+    notifications: Seq[models.Notification] = Nil
+)
 
 @main(messages("employeeIndex.title")) {
-  <div class="container">
     <div class="row">
-      <h1>@messages("employeeIndex.header", login)</h1>
+        <h1>@messages("employeeIndex.header", login)</h1>
 
-      <p>@messages( "employeeIndex.welcomeText" )</p>
+        <p>@messages( "employeeIndex.welcomeText" )</p>
 
-      <a href="@routes.ProductAdmin.addProduct" class="col sm4">@messages( "employeeIndex.product.add.text" )</a>
-      <button class="btn  col sm4" onclick="alertify.notify('Yay!', 'success', 5)">Alert me!</button>
+        <a href="@routes.ProductAdmin.addProduct" class="col sm4">@messages( "employeeIndex.product.add.text" )</a>
+        <button class="btn  col sm4" onclick="alertify.notify('Yay!', 'success', 5)">Alert me!</button>
     </div>
-  </div>
 }
