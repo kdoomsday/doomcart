@@ -80,7 +80,7 @@ class LoginController @Inject() (
 
 
   def logout = Action { request =>
-    eventDao.write( messagesApi("LoginController.logout.aud", request("login")) )
+    eventDao.write( messagesApi("LoginController.logout.aud", request.session("login")) )
     Redirect(routes.LoginController.loginPage()).withNewSession
   }
 

@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 import actions.Actions
 import daos.ProductDao
-import audit.EventDao
+import audits.EventDao
 
 /** Controller for product actions */
 class ProductAdmin @Inject() (

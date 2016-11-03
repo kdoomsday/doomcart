@@ -1,7 +1,7 @@
 @** Add a product to the system *@
 @(form: Form[daos.ProductDao.ProductInfo])(implicit messages: Messages, notifications: Seq[models.Notification] = Nil)
 
-@main( messages("addProduct.") ) {
+@main( messages("addProduct.title") ) {
   <div class="container">
     <h1>@messages("addProduct.header")</h1>
 
