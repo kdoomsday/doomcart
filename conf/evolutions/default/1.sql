@@ -30,6 +30,12 @@ CREATE TABLE product_images (
   primary key (product_id, image_url)
 );
 
+CREATE TABLE events (
+  id           bigserial NOT NULL PRIMARY KEY,
+  description  varchar   NOT NULL,
+  moment       timestamp NOT NULL
+);
+
 insert into roles(name) values ('employee');
 
 insert into users(login, password, salt, role_id)
