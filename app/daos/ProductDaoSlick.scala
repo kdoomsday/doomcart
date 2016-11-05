@@ -68,4 +68,8 @@ class ProductDaoSlick @Inject() (
       } yield (prod, pis)
     }
   }
+
+  def all: Future[Seq[Product]] = {
+    db.run( products.result )
+  }
 }

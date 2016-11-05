@@ -1,0 +1,14 @@
+@import be.objectify.deadbolt.scala.AuthenticatedRequest
+
+@(products: Seq[Product])(
+    implicit
+      messages: Messages,
+      req     : AuthenticatedRequest[_],
+      nots    : Seq[Notification] = Nil
+)
+
+@main(messages("allProducts.title")) {
+    <h1>@messages("allProducts.header")</h1>
+
+    @show.productList(products)
+}

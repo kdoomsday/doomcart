@@ -39,4 +39,7 @@ trait ProductDao {
     * @param pid Product ID
     */
   def product(pid: Long): Future[(Product, Seq[ProductImage])]
+
+  /** All products in the system */
+  def all: Future[Seq[Product]]
 }
