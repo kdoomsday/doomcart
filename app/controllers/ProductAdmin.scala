@@ -62,8 +62,7 @@ class ProductAdmin @Inject() (
       fpart => {
         productDao.addImage(productId, fpart).map { pi =>
           eventDao.write( messagesApi("ProductAdmin.addImage.aud", productId, pi.imageUrl) )
-          implicit val nots = Notification.success( messagesApi("ProductAdmin.addImage.success") )
-          Redirect(routes.Application.employeeIndex())
+          Redirect(routes.Application.employeeIndex()).flashing( "success" -> messagesApi("ProductAdmin.addImage.success") )
         }
       }
     }

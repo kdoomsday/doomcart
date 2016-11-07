@@ -1,6 +1,7 @@
 navbar.brand.text         = Doomcart!
 navbar.index.text         = Home
 navbar.employeeIndex.text = Employee Home
+navbar.allProducts.text   = Products
 navbar.logout.title       = Log out
 
 index.title            = Home
@@ -34,6 +35,10 @@ addProduct.submit.text = Create product
 
 addProductImage.title  = Add image to product
 addProductImage.header = Select an image to add to the product
+
+addImageView.title  = Add image
+addImageView.header = Add an image to the product
+addImageView.submit = Add image
 
 employeeIndex.title            = Employee lounge
 employeeIndex.header           = Logged in as {0}

@@ -3,10 +3,24 @@
 @(title: String, scripts: Seq[String] = Nil, styles: Seq[String] = Nil)(
     content: Html
 )(
-    implicit notifications: Seq[Notification] = Nil,
-    messages: Messages,
-    request: AuthenticatedRequest[_]
+    implicit
+    messages     : Messages,
+    request      : AuthenticatedRequest[_],
+    notifications: Seq[Notification] = Nil,
+    flash        : Flash = null
 )
+
+@notify(level: String) = {
+    @if( flash != null ) {
+        @flash.get(level).map( msg => show.notification( msg, level ) )
+    }
+}
+
+@flashNots() = {
+    @notify("success")
+    @notify("error")
+    @notify("warning")
+}
 
 <!DOCTYPE html>
 
@@ -44,5 +58,6 @@
         @for(n <- notifications){
           @show.notification(n.message, n.level)
         }
+        @flashNots()
     </body>
 </html>

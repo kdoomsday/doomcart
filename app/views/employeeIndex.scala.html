@@ -2,9 +2,10 @@
 
 @(login: String)(
     implicit
-    messages: Messages,
-    request: AuthenticatedRequest[Any],
-    notifications: Seq[models.Notification] = Nil
+    messages      : Messages,
+    request       : AuthenticatedRequest[Any],
+    notifications : Seq[models.Notification] = Nil,
+    flash         : Flash = null
 )
 
 @main(messages("employeeIndex.title")) {

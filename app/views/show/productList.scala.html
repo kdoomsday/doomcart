@@ -6,6 +6,7 @@
             <th class="data-field">@messages("productList.id.header")</th>
             <th class="data-field">@messages("productList.name.header")</th>
             <th class="data-field">@messages("productList.price.header")</th>
+            <th class="data-field"><i class="material-icons">info</i></th>
         </tr>
     </thead>
     <tbody>
@@ -14,7 +15,12 @@
               <td>@prod.id</td>
               <td>@prod.name</td>
               <td>@prod.price</td>
+              <td>
+                  <a href ="@routes.ProductAdmin.productInfo(prod.id)">
+                      <i class="material-icons">info</i>
+                  </a>
+              </td>
             </tr>
-        }         
+        }
     </tbody>
 </table>

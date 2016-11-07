@@ -2,15 +2,15 @@
 
 @(productid: Long)(implicit messages: Messages, request: AuthenticatedRequest[Any])
 
-@main("TODO") {
-    <h1>Under construction</h1>
+@main( messages( "addImageView.title" ) ) {
+    <h1>@messages("addImageView.header")</h1>
 
     <div class="row">
         <form action="#" role="form" method="post" enctype="multipart/form-data">
             <input type="file" name="image">
             <input type="submit"
                    class="btn col s6 offset-s3 m4 offset-m4"
-                   value="@messages("addProduct.submit.text")">
+                   value="@messages("addImageView.submit")">
         </form>
     </div>
 }
