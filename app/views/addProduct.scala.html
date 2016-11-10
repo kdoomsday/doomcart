@@ -12,9 +12,27 @@
 
     <div class="row">
         <form action="#" role="form" method="post" enctype="multipart/form-data">
-            @inputs.text(form("name"), "Name", messages( "addProduct.name.label" ), divClass = "col s12 m6", required=true)
-            @inputs.text(form("price"), "Price", messages( "addProduct.price.label" ), divClass = "col s12 m6", required=true)
-            <input class="col s12" type="file" name="image">
+            @inputs.text(
+                form("name"),
+                messages( "addProduct.name.label" ),
+                inputClass = "col s12 m6",
+                required = true
+            )
+            @inputs.text(
+                form("price"),
+                messages( "addProduct.price.label" ),
+                inputClass = "col s12 m6",
+                required = true
+            )
+
+            @inputs.file(
+                messages("addProduct.file.label"),
+                inputClass = "col s12",
+                id = "image",
+                placeholder = messages("addProduct.file.tt")
+            )
+
+            <!-- <input class="col s12" type="file" name="image"> -->
 
             <input type="submit"
                    class="btn col s6 offset-s3 m4 offset-m4"

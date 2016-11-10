@@ -4,26 +4,27 @@
   *                    The field name is used as the id and name of the input.
   * @param label       Label to be created, if not empty
   * @param placeholder Placeholder text for the field
-  * @param divClass    Additional class elements for the div containing the field
+  * @param inputClass    Additional class elements for the div containing the field
   * @param isPassword  If true, this will be a password field instead of text. Default false.
   *@
-@(field: Field,
-  id: String,
-  label: String = "",
+@(
+  field: Field,
+  label: String       = "",
   placeholder: String = "",
-  divClass: String = "",
-  required: Boolean = false,
-  tags: Seq[String] = Seq(),
-  isPassword: Boolean = false)
-
-<div class="inputField @divClass">
-  @if(label != "") {
-    <label for="@id">@label</label>
-  }
+  inputClass: String  = "",
+  required: Boolean   = false,
+  tags: Seq[String]   = Seq(),
+  isPassword: Boolean = false
+)
+<div class="input-field @inputClass">
   <input type="@if(isPassword) {password} else {text}"
-    id="@field.name" name="@field.name"
-    @if(placeholder != "") {placeholder = "@placeholder"}
-    @if(required){required aria-required}
-    @for(tag <- tags){@tag }
+     id="@field.name" name="@field.name"
+     @if(placeholder != "") {placeholder = "@placeholder"}
+     @if(required) {required aria-required}
+     @for(tag <- tags){@tag}
+     class="validate"
   >
+  @if(label != "") {
+    <label for="@field.name">@label</label>
+  }
 </div>

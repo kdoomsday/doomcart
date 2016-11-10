@@ -1,0 +1,19 @@
+@(
+  label       : String,
+  placeholder : String = "",
+  inputClass  : String = "",
+  id          : String = ""
+)
+<div class="@inputClass">
+    <div class="file-field input-field">
+        <div class="btn col s3">
+            <span>@label</span>
+            <input type="file"
+                   @if(id != "") {id="@id" name="@id"}>
+        </div>
+        <div class="file-path-wrapper col s9 offset-s3">
+            <input class="file-path validate" type="text"
+                   placeholder="@placeholder">
+        </div>
+    </div>
+</div>

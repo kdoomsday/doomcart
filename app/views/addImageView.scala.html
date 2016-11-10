@@ -7,7 +7,12 @@
 
     <div class="row">
         <form action="#" role="form" method="post" enctype="multipart/form-data">
-            <input class="col s12" type="file" name="image">
+            @inputs.file(
+                label = messages("addProductImage.file.text"),
+                placeholder = messages("addProductImage.file.tt"),
+                inputClass = "col s12",
+                id = "image"
+            )
             <input type="submit"
                    class="btn col s6 offset-s3 m4 offset-m4"
                    value="@messages("addImageView.submit")">

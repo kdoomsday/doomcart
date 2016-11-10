@@ -32,9 +32,13 @@ addProduct.header      = Create new product
 addProduct.name.label  = Name
 addProduct.price.label = Price
 addProduct.submit.text = Create product
+addProduct.file.label  = Image
+addProduct.file.tt     = Image to show for the product
 
-addProductImage.title  = Add image to product
-addProductImage.header = Select an image to add to the product
+addProductImage.title     = Add image to product
+addProductImage.header    = Select an image to add to the product
+addProductImage.file.text = Image
+addProductImage.file.tt   = New image for the product
 
 addImageView.title  = Add image
 addImageView.header = Add an image to the product
