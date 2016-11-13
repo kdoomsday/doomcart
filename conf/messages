@@ -31,6 +31,7 @@ addProduct.title       = Add product
 addProduct.header      = Create new product
 addProduct.name.label  = Name
 addProduct.price.label = Price
+addProduct.desc.label  = Description
 addProduct.submit.text = Create product
 addProduct.file.label  = Image
 addProduct.file.tt     = Image to show for the product
@@ -54,6 +55,8 @@ product.header           = Product information
 product.info.name        = {0}
 product.info.price.label = Price
 product.info.price.text  = {0}
+product.info.desc.label  = Description
+product.info.desc.text   = {0}
 product.info.image.alt   = The product image
 product.info.noImage     = No image for this product
 

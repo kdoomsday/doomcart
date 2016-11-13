@@ -24,6 +24,11 @@
                 inputClass = "col s12 m6",
                 required = true
             )
+            @inputs.text(
+                form("description"),
+                messages("addProduct.desc.label"),
+                inputClass = "col s12"
+            )
 
             @inputs.file(
                 messages("addProduct.file.label"),

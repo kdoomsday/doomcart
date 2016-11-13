@@ -7,6 +7,11 @@
     request: AuthenticatedRequest[Any]
 )
 
+@lineItem(name: String, text: String) = {
+    <div class="col s4 strong">@name</div>
+    <div class="col s8">@text</div>
+}
+
 @main( messages("product.title") ) {
     <h1>@messages("product.header")</h1>
 
@@ -14,12 +19,12 @@
         <div class="card blue lighten-4">
             <div id="info" class="col s6">
                 <h2 class="col s12">@messages("product.info.name", p.name)</h2>
-                <div class="col s4 strong">
-                    @messages("product.info.price.label")
-                </div>
-                <div class="col s8">
-                    @messages("product.info.price.text", p.price)
-                </div>
+                @lineItem(
+                    messages("product.info.price.label"),
+                    messages("product.info.price.text", p.price) )
+                @lineItem(
+                    messages("product.info.desc.label"),
+                    messages("product.info.desc.text", p.description) )
             </div>
 
             <div id="image" class="col s6 ">

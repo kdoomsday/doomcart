@@ -81,7 +81,8 @@ object ProductAdmin {
   lazy val productForm = Form(
     mapping (
       "name"  -> nonEmptyText,
-      "price" -> bigDecimal(17, 2)
+      "price" -> bigDecimal(17, 2),
+      "description" -> text
     )(ProductInfo.apply)(ProductInfo.unapply)
   )
 }

@@ -47,7 +47,12 @@ class ProductDaoSlick @Inject() (
 
   /** Action to insert a product given it's info, returning the resulting Product instance */
   private[this] def insProduct(pinfo: ProductInfo): DBIOAction[Product, NoStream, Write] = {
-    val p = Product(0L, name = pinfo.name, price = pinfo.price)
+    val p = Product(
+      0L,
+      name = pinfo.name,
+      price = pinfo.price, description = pinfo.description
+    )
+
     ( (products returning products.map(_.id) into ((product, id) => product.copy(id=id))) += p )
   }
 

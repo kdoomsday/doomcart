@@ -7,9 +7,10 @@ import slick.driver.JdbcProfile
 
 /** A product in the system */
 case class Product (
-  id:     Long,
-  name:   String,
-  price:  BigDecimal
+  id          : Long,
+  name        : String,
+  price       : BigDecimal,
+  description : String
 )
 
 
@@ -19,11 +20,12 @@ trait ProductTable {
   import dc.driver.api._
 
   private[ProductTable] class Products(tag: Tag) extends Table[Product](tag, "products") {
-    def id    = column[Long]("id", O.PrimaryKey, O.AutoInc)
-    def name  = column[String]("name")
-    def price = column[BigDecimal]("price")
+    def id          = column[Long]      ("id", O.PrimaryKey, O.AutoInc)
+    def name        = column[String]    ("name")
+    def price       = column[BigDecimal]("price")
+    def description = column[String]    ("description")
 
-    def * = (id, name, price) <> (Product.tupled, Product.unapply)
+    def * = (id, name, price, description) <> (Product.tupled, Product.unapply)
   }
 
   lazy val products = TableQuery[Products]
