@@ -37,6 +37,10 @@ CREATE TABLE events (
   moment       timestamp NOT NULL
 );
 
+CREATE TABLE categories (
+  name varchar(255) PRIMARY KEY
+);
+
 insert into roles(name) values ('employee');
 insert into roles(name) values ('user');
 
@@ -54,3 +58,5 @@ drop table product_images;
 drop table products;
 
 drop table events;
+
+drop table categories;
