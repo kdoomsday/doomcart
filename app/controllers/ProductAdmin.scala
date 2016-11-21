@@ -1,6 +1,6 @@
 package controllers
 
-import daos.ImgSave
+import daos.{ CategoryDao, ImgSave }
 import models.Notification
 import play.api.libs.Files.TemporaryFile
 import play.api.mvc.{ Controller, MultipartFormData => MPFD }
@@ -20,6 +20,7 @@ import audits.EventDao
 class ProductAdmin @Inject() (
   val actions:     Actions,
   val productDao:  ProductDao,
+  val categoryDao: CategoryDao,
   val eventDao:    EventDao,
   val imgSave:     ImgSave,
   val messagesApi: MessagesApi
@@ -28,12 +29,12 @@ class ProductAdmin @Inject() (
   import ProductAdmin.productForm
 
   def addProduct = actions.roleAction("employee") { implicit req =>
-    Future.successful( Ok(views.html.addProduct(productForm)) )
+    categoryDao.all().map(cats => Ok(views.html.addProduct(productForm, cats)) )
   }
 
   def addProductHandle = actions.roleActionP("employee")(parse.multipartFormData) { implicit request =>
     productForm.bindFromRequest.fold(
-      formWithErrors => Future.successful(BadRequest(views.html.addProduct(formWithErrors))),
+      formWithErrors => categoryDao.all().map(cats => BadRequest(views.html.addProduct(formWithErrors, cats))),
       info => {
         val oImage: Option[FilePart[TemporaryFile]] = request.body.file("image")
         val fp = oImage match {
@@ -41,10 +42,10 @@ class ProductAdmin @Inject() (
           case None        => productDao.insert(info)
         }
 
-        fp map { p =>
+        fp flatMap { p =>
           eventDao.write( messagesApi("ProductAdmin.addProductHandle.aud", p.id) )
           implicit val nots = Notification.success(messagesApi("ProductAdmin.addProductHandle.success"))
-          Ok(views.html.addProduct(productForm))
+          categoryDao.all() map (cats => Ok(views.html.addProduct(productForm, cats)))
         }
       }
     )

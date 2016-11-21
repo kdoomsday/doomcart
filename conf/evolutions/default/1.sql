@@ -38,7 +38,14 @@ CREATE TABLE events (
 );
 
 CREATE TABLE categories (
-  name varchar(255) PRIMARY KEY
+  id   serial       PRIMARY KEY,
+  name varchar(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE product_category (
+  product_id  bigint NOT NULL,
+  category_id bigint NOT NULL,
+  primary key (product_id, category_id)
 );
 
 insert into roles(name) values ('employee');
@@ -60,3 +67,5 @@ drop table products;
 drop table events;
 
 drop table categories;
+
+drop table product_category;

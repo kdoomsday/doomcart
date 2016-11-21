@@ -13,11 +13,12 @@ import audits.{ EventDao, EventDaoSlick }
 class DefaultBindings extends AbstractModule {
 
   def configure() = {
-    bind( classOf[UserDao]    ) to classOf[UserDaoSlick]
-    bind( classOf[SubjectDao] ) to classOf[SubjectDaoSlick]
-    bind( classOf[ProductDao] ) to classOf[ProductDaoSlick]
-    bind( classOf[ImgSave]    ) to classOf[ImgSaveImpl]
-    bind( classOf[EventDao]   ) to classOf[EventDaoSlick]
+    bind( classOf[UserDao]     ) to classOf[UserDaoSlick]
+    bind( classOf[SubjectDao]  ) to classOf[SubjectDaoSlick]
+    bind( classOf[ProductDao]  ) to classOf[ProductDaoSlick]
+    bind( classOf[CategoryDao] ) to classOf[CategoryDaoSlick]
+    bind( classOf[ImgSave]     ) to classOf[ImgSaveImpl]
+    bind( classOf[EventDao]    ) to classOf[EventDaoSlick]
 
     bind( classOf[HashService] ) toInstance MessageDigestHashService.Sha256HashService
   }

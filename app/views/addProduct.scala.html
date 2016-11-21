@@ -1,7 +1,7 @@
 @** Add a product to the system *@
 @import be.objectify.deadbolt.scala.AuthenticatedRequest
 
-@(form: Form[daos.ProductDao.ProductInfo])(
+@(form: Form[daos.ProductDao.ProductInfo], cats: Seq[Category])(
     implicit
     messages: Messages,
     request: AuthenticatedRequest[Any],
@@ -37,7 +37,9 @@
                 placeholder = messages("addProduct.file.tt")
             )
 
-            <!-- <input class="col s12" type="file" name="image"> -->
+            @for(cat <- cats) {
+              <p>@cat.name</p>
+            }
 
             <input type="submit"
                    class="btn col s6 offset-s3 m4 offset-m4"

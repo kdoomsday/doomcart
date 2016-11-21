@@ -4,7 +4,7 @@ import slick.backend.DatabaseConfig
 import slick.driver.JdbcProfile
 
 /** A product category */
-case class Category(name: String)
+case class Category(id: Int, name: String)
 
 
 trait CategoryTable {
@@ -15,9 +15,10 @@ trait CategoryTable {
   private[CategoryTable] class Categories(tag: Tag)
       extends Table[Category](tag, "categories")
   {
-    def name = column[String]("name", O.PrimaryKey)
+    def id   = column[Int]("id", O.PrimaryKey)
+    def name = column[String]("name")
 
-    def * = (name) <> (Category.apply, Category.unapply)
+    def * = (id, name) <> (Category.tupled, Category.unapply)
   }
 
   def categories = TableQuery[Categories]
