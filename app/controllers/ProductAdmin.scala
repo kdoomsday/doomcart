@@ -1,5 +1,6 @@
 package controllers
 
+import daos.CategoryDao.CategoryInfo
 import daos.{ CategoryDao, ImgSave }
 import models.Notification
 import play.api.libs.Files.TemporaryFile
@@ -26,7 +27,7 @@ class ProductAdmin @Inject() (
   val messagesApi: MessagesApi
 ) extends Controller with I18nSupport {
 
-  import ProductAdmin.productForm
+  import ProductAdmin.{ productForm, categoryForm }
 
   def addProduct = actions.roleAction("employee") { implicit req =>
     categoryDao.all().map(cats => Ok(views.html.addProduct(productForm, cats)) )
@@ -74,16 +75,42 @@ class ProductAdmin @Inject() (
       Ok( views.html.product.product(p, pimages) )
     }
   }
+
+  def addCategoryView = actions.roleAction("employee") { implicit req =>
+    Future.successful( Ok( views.html.product.addCategory(categoryForm) ) )
+  }
+
+  def addCategory = actions.roleAction("employee") { implicit req =>
+    categoryForm.bindFromRequest.fold(
+      formWithErrors =>
+        Future.successful( BadRequest(views.html.product.addCategory(formWithErrors)) ),
+        name => {
+          eventDao.write( messagesApi("ProductAdmin.addCategory.aud", name) )
+          categoryDao.save( CategoryInfo(name) )
+            .map( f =>
+              Redirect( routes.Application.employeeIndex() )
+                .flashing("success" ->
+                    messagesApi("ProductAdmin.addCategory.success", name) )
+            )
+        }
+    )
+  }
 }
 
 object ProductAdmin {
   import daos.ProductDao.ProductInfo
 
-  lazy val productForm = Form(
+  lazy val productForm: Form[ProductInfo] = Form(
     mapping (
       "name"  -> nonEmptyText,
       "price" -> bigDecimal(17, 2),
       "description" -> text
     )(ProductInfo.apply)(ProductInfo.unapply)
+  )
+
+  lazy val categoryForm: Form[String] = Form(
+    single (
+      "name" -> nonEmptyText
+    )
   )
 }

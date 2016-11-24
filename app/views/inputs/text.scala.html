@@ -23,6 +23,8 @@
      @if(required) {required aria-required}
      @for(tag <- tags){@tag}
      class="validate"
+     @if(field.hasErrors) {data-error="@{field.errors.mkString(", ")}"}
+     value="@{field.value.getOrElse("")}"
   >
   @if(label != "") {
     <label for="@field.name">@label</label>

@@ -3,6 +3,7 @@ navbar.index.text         = Home
 navbar.employeeIndex.text = Employee Home
 navbar.allProducts.text   = Products
 navbar.logout.title       = Log out
+navbar.addCategory        = Add Category
 
 index.title            = Home
 index.header           = Welcome, {0}!
@@ -20,6 +21,9 @@ ProductAdmin.addProductHandle.aud     = Product created: {0}
 ProductAdmin.addImage.success         = Image added successfully
 ProductAdmin.addImage.noImage         = There was no image!
 ProductAdmin.addImage.aud             = Add image to product {0} ({1})
+
+ProductAdmin.addCategory.aud = Create category {0}
+ProductAdmin.addCategory.success = Category {0} created successfully!
 
 denied.title = Denied
 denied.noUser = No user!
@@ -44,6 +48,11 @@ addProductImage.file.tt   = New image for the product
 addImageView.title  = Add image
 addImageView.header = Add an image to the product
 addImageView.submit = Add image
+
+addCategoryView.title  = Add Categories
+addCategoryView.header = Add a new category
+addCategoryView.name.label = Name
+addCategoryView.submit.text = Create category
 
 employeeIndex.title            = Employee lounge
 employeeIndex.header           = Logged in as {0}

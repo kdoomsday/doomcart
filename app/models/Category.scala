@@ -15,7 +15,7 @@ trait CategoryTable {
   private[CategoryTable] class Categories(tag: Tag)
       extends Table[Category](tag, "categories")
   {
-    def id   = column[Int]("id", O.PrimaryKey)
+    def id   = column[Int]("id", O.PrimaryKey, O.AutoInc)
     def name = column[String]("name")
 
     def * = (id, name) <> (Category.tupled, Category.unapply)

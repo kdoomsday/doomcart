@@ -1,0 +1,31 @@
+@* View for creating categories *@
+@import be.objectify.deadbolt.scala.AuthenticatedRequest
+
+@(form: Form[String])(
+    implicit
+    messages: Messages,
+    request: AuthenticatedRequest[Any]
+)
+
+@main( messages("addCategoryView.title") ) {
+    <h1>@messages("addCategoryView.header")</h1>
+
+    @for(error <- form.errors){
+        @show.notification(error.message, "warn")
+    }
+
+    <div class="row">
+        <form action="@routes.ProductAdmin.addCategory" method="post" role="form">
+            @inputs.text(
+                form("name"),
+                messages("addCategoryView.name.label"),
+                inputClass = "col s12",
+                required = true
+            )
+
+            <input type="submit"
+                   class="btn col s6 offset-s3"
+                   value="@messages("addCategoryView.submit.text")">
+        </form>
+    </div>
+}
