@@ -4,6 +4,7 @@ navbar.employeeIndex.text = Employee Home
 navbar.allProducts.text   = Products
 navbar.logout.title       = Log out
 navbar.addCategory        = Add Category
+navbar.categories         = Categories
 
 index.title            = Home
 index.header           = Welcome, {0}!
@@ -75,3 +76,7 @@ productList.price.header = Price
 
 allProducts.title = All products
 allProducts.header = Products
+
+categories.title  = Categories
+categories.header = Categories
+categories.table.name = Name

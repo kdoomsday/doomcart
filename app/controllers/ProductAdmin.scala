@@ -95,6 +95,10 @@ class ProductAdmin @Inject() (
         }
     )
   }
+
+  def categories = actions.roleAction("employee") { implicit req =>
+    categoryDao.all().map(cats => Ok(views.html.product.categories( cats ) ) )
+  }
 }
 
 object ProductAdmin {

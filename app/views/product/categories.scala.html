@@ -1,0 +1,29 @@
+@import be.objectify.deadbolt.scala.AuthenticatedRequest
+@(cats: Seq[Category])(
+    implicit
+    messages: Messages,
+    request: AuthenticatedRequest[Any]
+)
+
+@main( messages("categories.title") ) {
+    <h1>@messages("categories.header")</h1>
+
+    <div class="row">
+        <table>
+            <thead>
+                <tr>
+                    <th class="col s11">@messages("categories.table.name")</th>
+                    <th class="col s1"><i class="material-icons">delete</i></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(cat <- cats) {
+                    <tr>
+                        <td class="col s11">@cat.name</td>
+                        <td class="col s1"><i class="material-icons">delete</i></td>
+                    </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+}

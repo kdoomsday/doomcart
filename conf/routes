@@ -27,6 +27,8 @@ POST    /product/addImage/:id  controllers.ProductAdmin.addImage(id: Long)
 GET     /category/add          controllers.ProductAdmin.addCategoryView
 POST    /category/add          controllers.ProductAdmin.addCategory
 
+GET     /categories            controllers.ProductAdmin.categories
+
 # Serve files
 GET     /image/*name           controllers.ImageServer.image(name: String)
 
