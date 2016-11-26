@@ -29,6 +29,7 @@ trait ProductCategoryTable extends ProductTable with CategoryTable {
 
     def * = (productId, categoryId) <> (ProductCategory.tupled, ProductCategory.unapply)
 
-    lazy val productCategories = TableQuery[ProductCats]
   }
+
+  lazy val productCategories = TableQuery[ProductCats]
 }

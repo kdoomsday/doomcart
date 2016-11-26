@@ -7,8 +7,18 @@ import scala.concurrent.Future
 import models.Product
 
 object ProductDao {
-  /** Basic product information used to create it */
-  case class ProductInfo(name: String, price: BigDecimal, description: String)
+  /** Basic product information used to create it
+    * @param name        Product name
+    * @param price       Product price
+    * @param description Product description
+    * @param categories  Seq of category ids that apply to this product
+    */
+  case class ProductInfo(
+    name: String,
+    price: BigDecimal,
+    description: String,
+    categories: Seq[Int]
+  )
 }
 
 

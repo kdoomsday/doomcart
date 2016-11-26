@@ -1,0 +1,12 @@
+@(
+  id: String,
+  label: String,
+  name       : Option[String] = None,
+  checked    : Boolean        = false,
+  value      : Option[String] = None
+)
+@effectiveName = { @name.getOrElse(id) }
+<input type="checkbox" id="@id" @if(checked){checked="checked"}
+  name="@effectiveName"
+  @value.map( v => Html(s"""value="$v" """) )>
+<label for="@id">@label</label>

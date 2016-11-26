@@ -1,5 +1,6 @@
 package daos
 
+import models.{ ProductCategory, ProductCategoryTable }
 import play.api.libs.Files.TemporaryFile
 import play.api.mvc.MultipartFormData.FilePart
 import scala.concurrent.Future
@@ -15,7 +16,7 @@ import daos.ProductDao.ProductInfo
 class ProductDaoSlick @Inject() (
   val dcp: DatabaseConfigProvider,
   val imgSave: ImgSave
-) extends ProductDao with ProductTable with ProductImageTable
+) extends ProductDao with ProductTable with ProductImageTable with ProductCategoryTable
 {
   override val dc = dcp.get[JdbcProfile]
   import dc.driver.api._
@@ -47,18 +48,23 @@ class ProductDaoSlick @Inject() (
 
   /** Action to insert a product given it's info, returning the resulting Product instance */
   private[this] def insProduct(pinfo: ProductInfo): DBIOAction[Product, NoStream, Write] = {
+    def insCats(prodId: Long, cats: Seq[Int]) =
+      productCategories ++= cats.map(c => ProductCategory(prodId, c))
+
     val p = Product(
       0L,
       name = pinfo.name,
-      price = pinfo.price, description = pinfo.description
+      price = pinfo.price,
+      description = pinfo.description
     )
 
-    ( (products returning products.map(_.id) into ((product, id) => product.copy(id=id))) += p )
+    val q = ( products returning products.map(_.id) ) += p
+    q.flatMap(id => insCats(id, pinfo.categories).map( _ => p.copy(id=id) ) )
   }
 
   private[this] def insImage(pid: Long, url: String): DBIOAction[ProductImage, NoStream, Write] = {
     val pi = ProductImage(pid, url)
-    ( productImages += pi ).map(_ => pi) 
+    ( productImages += pi ).map(_ => pi)
   }
 
 

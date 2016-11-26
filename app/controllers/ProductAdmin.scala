@@ -35,7 +35,8 @@ class ProductAdmin @Inject() (
 
   def addProductHandle = actions.roleActionP("employee")(parse.multipartFormData) { implicit request =>
     productForm.bindFromRequest.fold(
-      formWithErrors => categoryDao.all().map(cats => BadRequest(views.html.addProduct(formWithErrors, cats))),
+      formWithErrors => categoryDao.all().map( cats =>
+                          BadRequest(views.html.addProduct(formWithErrors, cats)) ),
       info => {
         val oImage: Option[FilePart[TemporaryFile]] = request.body.file("image")
         val fp = oImage match {
@@ -108,7 +109,8 @@ object ProductAdmin {
     mapping (
       "name"  -> nonEmptyText,
       "price" -> bigDecimal(17, 2),
-      "description" -> text
+      "description" -> text,
+      "categories"  -> seq(number)
     )(ProductInfo.apply)(ProductInfo.unapply)
   )
 

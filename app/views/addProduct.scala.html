@@ -38,7 +38,12 @@
             )
 
             @for(cat <- cats) {
-              <p>@cat.name</p>
+                @inputs.checkbox(
+                  id    = "categories["+cat.id+"]",
+                  label = cat.name,
+                  name  = Some("categories[]"),
+                  value = Some(cat.id.toString)
+                )
             }
 
             <input type="submit"
