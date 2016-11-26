@@ -72,8 +72,8 @@ class ProductAdmin @Inject() (
   }
 
   def productInfo(pid: Long) = actions.timedAction { implicit req =>
-    productDao.product(pid).map { case (p, pimages) =>
-      Ok( views.html.product.product(p, pimages) )
+    productDao.product(pid).map { case (p, pimages, pcats) =>
+      Ok( views.html.product.product(p, pimages, pcats) )
     }
   }
 

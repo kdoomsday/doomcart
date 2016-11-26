@@ -10,13 +10,17 @@ import slick.driver.JdbcProfile
 import javax.inject.Inject
 import scala.concurrent.ExecutionContext.Implicits.global
 
-import models.{ Product, ProductTable, ProductImage, ProductImageTable }
+import models._
 import daos.ProductDao.ProductInfo
 
 class ProductDaoSlick @Inject() (
   val dcp: DatabaseConfigProvider,
   val imgSave: ImgSave
-) extends ProductDao with ProductTable with ProductImageTable with ProductCategoryTable
+) extends ProductDao
+    with ProductTable
+    with ProductImageTable
+    with ProductCategoryTable
+    with CategoryTable
 {
   override val dc = dcp.get[JdbcProfile]
   import dc.driver.api._
@@ -68,15 +72,20 @@ class ProductDaoSlick @Inject() (
   }
 
 
-  def product(pid: Long): Future[(Product, Seq[ProductImage])] = {
-    val qprod = products.filter(_.id === pid).result.head
+  def product(pid: Long): Future[(Product, Seq[ProductImage], Seq[Category])] = {
+    val qprod   = products.filter(_.id === pid).result.head
     val pimages = productImages.filter(_.productId === pid).result
+    val pcats   = (for {
+                    pc <- productCategories if pc.productId === pid
+                    c  <- categories if c.id === pc.categoryId
+                  } yield c).result
 
     db.run {
       for {
         prod <- qprod
         pis  <- pimages
-      } yield (prod, pis)
+        pcs  <- pcats
+      } yield (prod, pis, pcs)
     }
   }
 

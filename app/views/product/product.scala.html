@@ -1,7 +1,7 @@
 @* Product view *@
 @import be.objectify.deadbolt.scala.AuthenticatedRequest
 
-@(p: models.Product, pimages: Seq[models.ProductImage])(
+@(p: models.Product, pimages: Seq[models.ProductImage], pcats: Seq[Category])(
     implicit
     messages: Messages,
     request: AuthenticatedRequest[Any]
@@ -25,6 +25,10 @@
                 @lineItem(
                     messages("product.info.desc.label"),
                     messages("product.info.desc.text", p.description) )
+                @lineItem(
+                    messages("product.info.cats.label"),
+                    pcats.map(_.name).mkString(" ") )
+
             </div>
 
             <div id="image" class="col s6 ">

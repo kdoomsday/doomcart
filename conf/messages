@@ -69,6 +69,7 @@ product.info.desc.label  = Description
 product.info.desc.text   = {0}
 product.info.image.alt   = The product image
 product.info.noImage     = No image for this product
+product.info.cats.label  = Categories
 
 productList.id.header    = ID
 productList.name.header  = Name

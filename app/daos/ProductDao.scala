@@ -4,7 +4,7 @@ import models.ProductImage
 import play.api.libs.Files.TemporaryFile
 import play.api.mvc.MultipartFormData.FilePart
 import scala.concurrent.Future
-import models.Product
+import models.{ Product, Category }
 
 object ProductDao {
   /** Basic product information used to create it
@@ -48,7 +48,7 @@ trait ProductDao {
   /** Get a product by Id with it's images
     * @param pid Product ID
     */
-  def product(pid: Long): Future[(Product, Seq[ProductImage])]
+  def product(pid: Long): Future[(Product, Seq[ProductImage], Seq[Category])]
 
   /** All products in the system */
   def all: Future[Seq[Product]]
