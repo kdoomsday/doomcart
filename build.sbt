@@ -14,7 +14,7 @@ libraryDependencies ++= Seq(
 
   "org.webjars" %% "webjars-play" % "2.3.0-2",
   "be.objectify" %% "deadbolt-scala" % "2.5.0",
-  "org.webjars.bower" % "Materialize" % "0.96.0",
+  "org.webjars.npm" % "materialize-css" % "0.97.3",
   "org.webjars.npm" % "alertifyjs" % "1.4.1"
 )
 

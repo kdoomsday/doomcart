@@ -61,8 +61,7 @@ employeeIndex.welcomeText      = Hope you are having a productive day!
 employeeIndex.product.add.text = Add a product
 
 product.title            = Product Info
-product.header           = Product information
-product.info.name        = {0}
+product.info.details     = Details
 product.info.price.label = Price
 product.info.price.text  = {0}
 product.info.desc.label  = Description

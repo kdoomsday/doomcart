@@ -12,34 +12,35 @@
     <div class="col s8">@text</div>
 }
 
+@showcat(cat: Category) = {
+    <div class="chip">@cat.name</div>
+}
+
 @main( messages("product.title") ) {
-    <h1>@messages("product.header")</h1>
+    <h1>@p.name</h1>
 
     <div class="row">
-        <div class="card blue lighten-4">
-            <div id="info" class="col s6">
-                <h2 class="col s12">@messages("product.info.name", p.name)</h2>
-                @lineItem(
-                    messages("product.info.price.label"),
-                    messages("product.info.price.text", p.price) )
-                @lineItem(
-                    messages("product.info.desc.label"),
-                    messages("product.info.desc.text", p.description) )
-                @lineItem(
-                    messages("product.info.cats.label"),
-                    pcats.map(_.name).mkString(" ") )
+        @for(cat <- pcats){@showcat(cat)}
+    </div>
+    <div class="row blue lighten-4">
+        <div id="info" class="col s6">
+            <h2>@messages("product.info.details")</h2>
+            @lineItem(
+                messages("product.info.price.label"),
+                messages("product.info.price.text", p.price) )
+            @lineItem(
+                messages("product.info.desc.label"),
+                messages("product.info.desc.text", p.description) )
+        </div>
 
-            </div>
-
-            <div id="image" class="col s6 ">
-                @if(pimages.isEmpty) {
-                    <p>@messages("product.info.noImage")</p>
+        <div id="image" class="col s6">
+            @if(pimages.isEmpty) {
+                <p>@messages("product.info.noImage")</p>
                 } else {
-                    @for(image <- pimages) {
-                        <img class="col s12" src="@routes.ImageServer.image(image.imageUrl)" alt="@messages("product.info.image.alt")">
+                @for(image <- pimages) {
+                    <img class="col s12" src="@routes.ImageServer.image(image.imageUrl)" alt="@messages("product.info.image.alt")">
                     }
-                }
-            </div>
+                    }
         </div>
     </div>
 }
