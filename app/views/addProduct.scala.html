@@ -37,14 +37,18 @@
                 placeholder = messages("addProduct.file.tt")
             )
 
-            @for(cat <- cats) {
-                @inputs.checkbox(
-                  id    = "categories["+cat.id+"]",
-                  label = cat.name,
-                  name  = Some("categories[]"),
-                  value = Some(cat.id.toString)
-                )
-            }
+            <div id="categories" class="row">
+                @for(cat <- cats) {
+                    <div class="col s4 m3">
+                        @inputs.checkbox(
+                            id    = "categories["+cat.id+"]",
+                            label = cat.name,
+                            name  = Some("categories[]"),
+                            value = Some(cat.id.toString)
+                        )
+                    </div>
+                }
+            </div>
 
             <input type="submit"
                    class="btn col s6 offset-s3 m4 offset-m4"
