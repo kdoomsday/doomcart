@@ -11,6 +11,11 @@ index.header           = Welcome, {0}!
 index.employee.text    = Employee home
 index.notEmployee.text = Not an employee
 
+login.header         = Doomcart!
+login.login.label    = Login
+login.password.label = Password
+login.submit.label   = Log in
+
 LoginController.login.info          = Attempting login
 LoginController.login.authError     = Invalid user: {0}
 LoginController.login.aud.success   = Successful login for {0}
