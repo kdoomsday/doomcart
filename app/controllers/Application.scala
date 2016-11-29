@@ -8,7 +8,7 @@ import daos.ProductDao
 import be.objectify.deadbolt.scala.{ActionBuilders, AuthenticatedRequest}
 import javax.inject.Inject
 import play.api.i18n.{MessagesApi, I18nSupport}
-import play.api.mvc.{Action, Controller}
+import play.api.mvc.Controller
 
 
 class Application @Inject() (

@@ -26,7 +26,7 @@ CREATE TABLE products (
 );
 
 CREATE TABLE product_images (
-  product_id bigint NOT NULL REFERENCES products(id),
+  product_id bigint NOT NULL REFERENCES products(id) on delete cascade,
   image_url  varchar(300) NOT NULL,
   primary key (product_id, image_url)
 );
@@ -43,8 +43,8 @@ CREATE TABLE categories (
 );
 
 CREATE TABLE product_category (
-  product_id  bigint NOT NULL,
-  category_id bigint NOT NULL,
+  product_id  bigint NOT NULL references products(id) on delete cascade,
+  category_id bigint NOT NULL references categories(id) on delete cascade,
   primary key (product_id, category_id)
 );
 

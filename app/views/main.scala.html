@@ -46,6 +46,27 @@
         </div>
         <div class="container">
             @content
+
+            <div class="fixed-action-btn">
+                <a href="@routes.ProductAdmin.addProduct"
+                   class="btn-floating btn-large red tooltipped"
+                   data-position="left"
+                   data-tooltip="@messages("main.fab.addProduct.tooltip")"
+                >
+                    +
+                </a>
+                <ul>
+                    <li>
+                        <a href="@routes.ProductAdmin.addCategory"
+                           class="btn-floating green darken-3 tooltipped"
+                           data-position="left"
+                           data-tooltip="@messages("main.fab.addCategory.tooltip")"
+                        >
+                            <i class="material-icons">label</i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
 
 
