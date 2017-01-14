@@ -12,6 +12,9 @@ trait CategoryDao {
 
   /** Get all categories */
   def all(): Future[Seq[Category]]
+
+  /** Remove a category */
+  def remove(id: Int): Future[Unit]
 }
 
 object CategoryDao {

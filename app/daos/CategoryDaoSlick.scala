@@ -7,6 +7,8 @@ import models.{Category, CategoryTable}
 import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 /** Implementation of CategoryDao that uses slick for db access */
 class CategoryDaoSlick @Inject() (
   val dcp: DatabaseConfigProvider
@@ -26,6 +28,8 @@ class CategoryDaoSlick @Inject() (
     db.run( query += cat )
   }
 
-
   override def all(): Future[Seq[Category]] = db.run( categories.result )
+
+  override def remove(id: Int): Future[Unit] =
+    db.run( categories.filter(_.id === id).delete ).map( _ => () )
 }

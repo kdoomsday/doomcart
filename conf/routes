@@ -14,18 +14,23 @@ GET     /logout               controllers.LoginController.logout
 GET     /home                 controllers.Application.index
 GET     /employee/lounge      controllers.Application.employeeIndex
 
+##### Products      ####################
 GET     /product/all           controllers.Application.allProducts
 
 GET     /product/add          controllers.ProductAdmin.addProduct
 POST    /product/add          controllers.ProductAdmin.addProductHandle
 
-GET     /product/:id          controllers.ProductAdmin.productInfo(id: Long) 
+GET     /product/:id          controllers.ProductAdmin.productInfo(id: Long)
 
 GET     /product/addImage/:id  controllers.ProductAdmin.addImageView(id: Long)
 POST    /product/addImage/:id  controllers.ProductAdmin.addImage(id: Long)
 
+##### Categories    ####################
 GET     /category/add          controllers.ProductAdmin.addCategoryView
 POST    /category/add          controllers.ProductAdmin.addCategory
+
+POST    /category/delete/      controllers.CategoryEdit.deleteAjax
+# GET     /category/delete/:id   controllers.CategoryEdit.delete(id: Int)
 
 GET     /categories            controllers.ProductAdmin.categories
 

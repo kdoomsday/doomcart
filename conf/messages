@@ -85,6 +85,7 @@ productList.price.header = Price
 allProducts.title = All products
 allProducts.header = Products
 
-categories.title  = Categories
-categories.header = Categories
-categories.table.name = Name
+categories.title                = Categories
+categories.header               = Categories
+categories.table.name           = Name
+categories.table.remove.tooltip = Delete this category

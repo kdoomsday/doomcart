@@ -10,8 +10,9 @@ import play.api.data.Forms._
 import play.api.data._
 import play.api.i18n.{ I18nSupport, MessagesApi }
 import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
 import javax.inject.Inject
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 import actions.Actions
 import daos.ProductDao

@@ -13,17 +13,46 @@
             <thead>
                 <tr>
                     <th class="col s11">@messages("categories.table.name")</th>
-                    <th class="col s1"><i class="material-icons">delete</i></th>
+                    <th class="col s1"></th>
                 </tr>
             </thead>
             <tbody>
                 @for(cat <- cats) {
-                    <tr>
+                    <tr id="@cat.id">
                         <td class="col s11">@cat.name</td>
-                        <td class="col s1"><i class="material-icons">delete</i></td>
+                        <td class="col s1">
+                            <button class="waves-effect btn-flat tooltipped"
+                                    onclick="removeCat(@cat.id)"
+                                    data-tooltip="@Messages("categories.table.remove.tooltip")"
+                            >
+                                <i class="material-icons">delete</i>
+                            </button>
                     </tr>
                     }
             </tbody>
         </table>
     </div>
+
+    <script type="text/javascript">
+     function removeCat(idcat) {
+         $.ajax({
+             url:      '@routes.CategoryEdit.deleteAjax',
+             method:   'post',
+             data:     { "id": idcat },
+             dataType: "text",
+             success:  function(data, textStatus, jqXHR) {
+                 if (data == "ok") {
+                     $('#'+idcat).remove();
+                     alertify.success('Deleted!!!');
+                 }
+                 else {
+                     alertify.error('Error!');
+                 }
+             },
+             error:    function(jqXHR, textStatus, errorThrown) {
+                 alertify.error('General error');
+             }
+         });
+     }
+    </script>
 }
