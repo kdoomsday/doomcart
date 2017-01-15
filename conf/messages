@@ -85,12 +85,20 @@ productList.price.header = Price
 allProducts.title = All products
 allProducts.header = Products
 
+##### categories template ##############
 categories.title                = Categories
 categories.header               = Categories
 categories.table.name           = Name
 categories.table.remove.tooltip = Delete this category
-categories.remove.title         = Confirm removal
-categories.remove.text          = Do you really want to delete this category?
-categories.remove.ok            = Yes
-categories.remove.cancel        = No
-categories.remove.success       = Removal successful
+categories.table.edit.tooltip   = Edit
+
+categories.remove.title   = Confirm removal
+categories.remove.text    = Do you really want to delete this category?
+categories.remove.ok      = Yes
+categories.remove.cancel  = No
+categories.remove.success = Removal successful
+
+categories.edit.header     = Edit category
+categories.edit.name.label = Name
+categories.edit.save       = Save
+categories.edit.cancel     = Don't Save

@@ -12,14 +12,23 @@
         <table>
             <thead>
                 <tr>
-                    <th class="col s11">@messages("categories.table.name")</th>
+                    <th class="col s10">@messages("categories.table.name")</th>
+                    <th class="col s1"></th>
                     <th class="col s1"></th>
                 </tr>
             </thead>
             <tbody>
                 @for(cat <- cats) {
                     <tr id="@cat.id">
-                        <td class="col s11">@cat.name</td>
+                        <td class="col s10">@cat.name</td>
+                        <td class="col s1">
+                            <button class="waves-effect btn-flat tooltipped"
+                                    data-tooltip="@Messages("categories.table.edit.tooltip")"
+                                    onclick="openEdit(@cat.id, '@cat.name')"
+                            >
+                                <i class="material-icons">mode_edit</i>
+                            </button>
+                        </td>
                         <td class="col s1">
                             <button class="waves-effect btn-flat tooltipped"
                                     onclick="confirmDelete(@cat.id)"
@@ -33,7 +42,36 @@
         </table>
     </div>
 
+    <!-- Modal in case of edits -->
+    <div id="modalEdit" class="modal">
+        <div class="modal-content">
+            <h4>@Messages("categories.edit.header")</h4>
+            <div class="input-field col s12">
+                <input id="_name" type="text" class="validate">
+                <label for="_name">@Messages("categories.edit.name.label")</label>
+            </div>
+            <input id="_id" type="hidden">
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class=" modal-action modal-close btn-flat">@Messages("categories.edit.cancel")</a>
+            <a href="#!" class=" modal-action modal-close btn-flat">@Messages("categories.edit.save")</a>
+        </div>
+    </div>
+
     <script type="text/javascript">
+     // Setup modals
+     $(document).ready(function(){
+         // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+         $('.modal').modal();
+     });
+
+     // Open the modal, showing the correct values
+     function openEdit(id, name) {
+         $('#_id').val(id);
+         $('#_name').val(name);
+         $('#modalEdit').modal('open');
+     }
+
      function confirmDelete(idcat) {
          confirm(
              '@Messages("categories.remove.title")',
