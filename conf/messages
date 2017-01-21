@@ -96,7 +96,9 @@ categories.remove.title   = Confirm removal
 categories.remove.text    = Do you really want to delete this category?
 categories.remove.ok      = Yes
 categories.remove.cancel  = No
-categories.remove.success = Removal successful
+categories.remove.success = Category deleted
+categories.remove.error   = Oops, something went wrong while deleting!
+
 
 categories.edit.header     = Edit category
 categories.edit.name.label = Name

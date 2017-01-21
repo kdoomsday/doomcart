@@ -5,7 +5,7 @@
     request: AuthenticatedRequest[Any]
 )
 
-@main( messages("categories.title"), scripts = Seq("javascripts/confirm.js")) {
+@main( messages("categories.title"), scripts = Seq("javascripts/confirm.js", "javascripts/ajaxCall.js")) {
     <h1>@messages("categories.header")</h1>
 
     <div class="row">
@@ -31,8 +31,8 @@
                         </td>
                         <td class="col s1">
                             <button class="waves-effect btn-flat tooltipped"
-                                    onclick="confirmDelete(@cat.id)"
-                                    data-tooltip="@Messages("categories.table.remove.tooltip")"
+                                onclick="doAjaxDelete(@cat.id)"
+                                data-tooltip="@Messages("categories.table.remove.tooltip")"
                             >
                                 <i class="material-icons">delete</i>
                             </button>
@@ -72,35 +72,20 @@
          $('#modalEdit').modal('open');
      }
 
-     function confirmDelete(idcat) {
-         confirm(
-             '@Messages("categories.remove.title")',
-             '@Messages("categories.remove.text")',
-             '@Messages("categories.remove.ok")',
-             '@Messages("categories.remove.cancel")',
-             function() { removeCat(idcat) }
-             );
+
+     // Ajax call to delete a category
+     function doAjaxDelete(id) {
+         ajaxCall('@routes.CategoryEdit.deleteAjax',
+                  id,
+                  '@Messages("categories.remove.title")',
+                  '@Messages("categories.remove.text")',
+                  '@Messages("categories.remove.ok")',
+                  '@Messages("categories.remove.cancel")',
+                  '@Messages("categories.remove.success")',
+                  '@Messages("categories.remove.error")',
+                  function() { $('#'+id).remove(); }
+         );
      }
 
-     function removeCat(idcat) {
-         $.ajax({
-             url:      '@routes.CategoryEdit.deleteAjax',
-             method:   'post',
-             data:     { "id": idcat },
-             dataType: "text",
-             success:  function(data, textStatus, jqXHR) {
-                 if (data == "ok") {
-                     $('#'+idcat).remove();
-                     alertify.success('Deleted!!!');
-                 }
-                 else {
-                     alertify.error('Error!');
-                 }
-             },
-             error:    function(jqXHR, textStatus, errorThrown) {
-                 alertify.error('General error');
-             }
-         });
-     }
     </script>
 }
